@@ -67,8 +67,10 @@ class TestProductRepository(unittest.TestCase):
             "info": "test_info"
         }
 
-        product = Product(**product_data)
 
+
+        product = Product(**product_data)
+        print(f"product: {product}")
         result = repository.add(product)
 
         self.assertTrue(result)
@@ -84,7 +86,7 @@ class TestProductRepository(unittest.TestCase):
         repository.add(product)
 
         result1 = repository.removeByProductId(1)
-        result2 = repository.removeByProductId(9)
+        result2 = repository.removeByProductId(10)
 
         self.assertIsNone(result1)
         self.assertIsNone(result2)

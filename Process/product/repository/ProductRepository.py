@@ -1,13 +1,13 @@
 import abc
 
 
-class ProductRepository():
+class ProductRepository(abc.ABC):
 
     @abc.abstractmethod
-    def add(self, _product):
+    def add(self, product):
         pass
     @abc.abstractmethod
-    def remove(self):
+    def removeByProductId(self, productId):
         pass
 
     @abc.abstractmethod

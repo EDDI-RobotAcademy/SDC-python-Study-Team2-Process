@@ -26,21 +26,22 @@ class ProductRepositoryImpl(ProductRepository):
             cls.__instance = cls()
         return cls.__instance
 
-    def add(self, _product):
+    def add(self, product):
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
 
         try:
-            session.add(_product)
+            session.add(product)
             session.commit()
 
-            print(f"product - id: {_product.getId()}")
-            return _product
+            print(f"product - id: {product.getId()}")
+            return True
 
         except SQLAlchemyError as exception:
             session.rollback()
             print(f"DB 저장 중 에러 발생: {exception}")
-            return None
+            return False
+
 
     def removeByProductId(self, _productId):
         dbSession = sessionmaker(bind=self.__instance.engine)

@@ -1,0 +1,30 @@
+import unittest
+
+from mysql.MySQLDatabase import MySQLDatabase
+from product.repository.ProductRepositoryImpl import ProductRepositoryImpl
+from product.service.ProductServiceImpl import ProductServiceImpl
+from product.service.request.ProductRequestAdd import ProductRequestAdd
+
+
+class TestProductServiceImpl(unittest.TestCase):
+    def setUp(self):
+        mysqlDatabase = MySQLDatabase.getInstance()
+        mysqlDatabase.connect()
+
+    def tearDown(self):
+        # Clean up any resources after each test
+        pass
+    def testProductAdd(self):
+        repository = ProductRepositoryImpl.getInstance()
+        service = ProductServiceImpl.getInstance()
+        product_data = {
+            "name": "testProduct",
+            "price": 33333,
+            "info": "testInfo"
+        }
+
+        response = service.productAdd(**product_data)
+
+        # response = ProductRepositoryImpl.getInstance().add(request.toProduct())
+        print(f"response: {response}")
+        self.assertTrue(response)
