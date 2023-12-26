@@ -39,7 +39,7 @@ class TestProductRepository(unittest.TestCase):
 
 
     def testRemoveByProductId(self):
-        _productId = 1
+        _productId = 7
         repository = ProductRepositoryImpl.getInstance()
         dbSession = sessionmaker(bind=repository.engine)
         session = dbSession()
@@ -48,7 +48,12 @@ class TestProductRepository(unittest.TestCase):
         if product:
             session.delete(product)
             session.commit()
-
+            self.assertIsNone(product)
+            print("삭제됐습니다")
+            return True
+        else:
+            print("올바르지 않은 상품코드입니다")
+            return False
 
 
 
@@ -79,12 +84,10 @@ class TestProductRepository(unittest.TestCase):
         repository.add(product)
 
         result1 = repository.removeByProductId(1)
-        result2 = repository.removeByProductId(2)
-        result4 = repository.removeByProductId(7)
+        result2 = repository.removeByProductId(9)
 
         self.assertIsNone(result1)
         self.assertIsNone(result2)
-        self.assertIsNone(result4)
 
 
         # deletedAccount = repository.findByAccountId("delete_user")

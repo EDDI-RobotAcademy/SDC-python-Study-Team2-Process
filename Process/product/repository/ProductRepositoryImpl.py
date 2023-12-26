@@ -50,6 +50,11 @@ class ProductRepositoryImpl(ProductRepository):
         if product:
             session.delete(product)
             session.commit()
+            print("삭제 완료")
+            return True
+        else:
+            print("올바르지 않은 상품 코드")
+            return False
 
     def edit(self):
         pass
