@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from mysql.MySQLDatabase import MySQLDatabase
 from product.entity.Product import Product
 from product.repository.ProductRepository import ProductRepository
+from product.service.response.ProductResponseAboutSuccess import ProductResponseAboutSuccess
 
 
 class ProductRepositoryImpl(ProductRepository):
@@ -29,19 +30,22 @@ class ProductRepositoryImpl(ProductRepository):
     def add(self, product):
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
+        response = None
 
         try:
             session.add(product)
             session.commit()
 
             print(f"product - id: {product.getId()}")
-            return True
+            response = ProductResponseAboutSuccess(True, "")
 
         except SQLAlchemyError as exception:
             session.rollback()
             print(f"DB 저장 중 에러 발생: {exception}")
-            return False
+            response = ProductResponseAboutSuccess(True, str(exception))
 
+        finally:
+            return response
 
     def removeByProductId(self, _productId):
         dbSession = sessionmaker(bind=self.__instance.engine)
