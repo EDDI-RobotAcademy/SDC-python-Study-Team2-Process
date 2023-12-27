@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class ProductRequestRemove:
+class ProductRequestFind:
     __productId: int
 
     def getProductId(self):

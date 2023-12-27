@@ -95,3 +95,8 @@ class TestProductRepository(unittest.TestCase):
         # deletedAccount = repository.findByAccountId("delete_user")
         # self.assertIsNone(deletedAccount)
 
+    def testFind(self):
+        repository = ProductRepositoryImpl.getInstance()
+        result = repository.findById(11)
+        print(result)
+        self.assertIsNotNone(result)

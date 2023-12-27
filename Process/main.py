@@ -9,6 +9,7 @@ from account.service.AccountServiceImpl import AccountServiceImpl
 from custom_protocol.entity.CustomProtocol import CustomProtocol
 from custom_protocol.service.CustomProtocolServiceImpl import CustomProtocolServiceImpl
 from mysql.MySQLDatabase import MySQLDatabase
+from product.service.ProductServiceImpl import ProductServiceImpl
 from server_socket.repository.ServerSocketRepositoryImpl import ServerSocketRepositoryImpl
 from server_socket.service.ServerSocketServiceImpl import ServerSocketServiceImpl
 from task_manage.repository.TaskManageRepositoryImpl import TaskManageRepositoryImpl
@@ -53,11 +54,29 @@ def initTaskManageDomain():
 def initCustomProtocol():
     customProtocolService = CustomProtocolServiceImpl.getInstance()
     accountService = AccountServiceImpl.getInstance()
+    productService = ProductServiceImpl.getInstance()
 
     print(f"enum value test: {CustomProtocol.ACCOUNT_REGISTER.value}")
     customProtocolService.registerCustomProtocol(
         CustomProtocol.ACCOUNT_REGISTER.value,
         accountService.registerAccount
+    )
+    print(f"enum value test: {CustomProtocol.PRODUCT_LIST.value}")
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.PRODUCT_LIST.value,
+        productService.productList
+    )
+
+    print(f"enum value test: {CustomProtocol.PRODUCT_ADD.value}")
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.PRODUCT_ADD.value,
+        productService.productAdd
+    )
+
+    print(f"enum value test: {CustomProtocol.PRODUCT_REMOVE.value}")
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.PRODUCT_REMOVE.value,
+        productService.productRemove
     )
 
 

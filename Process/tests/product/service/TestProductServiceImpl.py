@@ -14,6 +14,7 @@ class TestProductServiceImpl(unittest.TestCase):
     def tearDown(self):
         # Clean up any resources after each test
         pass
+
     def testProductAdd(self):
         repository = ProductRepositoryImpl.getInstance()
         service = ProductServiceImpl.getInstance()
@@ -28,3 +29,18 @@ class TestProductServiceImpl(unittest.TestCase):
         # response = ProductRepositoryImpl.getInstance().add(request.toProduct())
         print(f"response: {response}")
         self.assertTrue(response)
+
+    def testDelete(self):
+        repository = ProductRepositoryImpl.getInstance()
+        service = ProductServiceImpl.getInstance()
+        product_id = 5
+        result = service.productRemove(product_id)
+        print(f"result: {result}")
+
+    def testFind(self):
+        repository = ProductRepositoryImpl.getInstance()
+        service = ProductServiceImpl.getInstance()
+        id = 24
+        result = service.productFindById(id)
+        print(f"result: {result}")
+        self.assertIsNotNone(result)

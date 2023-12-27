@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from mysql.MySQLDatabase import MySQLDatabase
 from product.entity.Product import Product
 from product.repository.ProductRepository import ProductRepository
+from product.service.request.ProductRequestRemove import ProductRequestRemove
 from product.service.response.ProductResponseAboutSuccess import ProductResponseAboutSuccess
 
 
@@ -47,7 +48,8 @@ class ProductRepositoryImpl(ProductRepository):
         finally:
             return response
 
-    def removeByProductId(self, _productId):
+    def removeByProductId(self, request: ProductRequestRemove):
+        _productId = request.getProductId()
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
 
@@ -55,11 +57,17 @@ class ProductRepositoryImpl(ProductRepository):
         if product:
             session.delete(product)
             session.commit()
-            print("삭제 완료")
-            return True
+            response = ProductResponseAboutSuccess(True, "삭제 완료")
         else:
-            print("올바르지 않은 상품 코드")
-            return False
+            response = ProductResponseAboutSuccess(False, "올바르지 않은 상품 코드입니다")
+
+        return response
+
+    def findById(self, id):
+        dbSession = sessionmaker(bind=self.__instance.engine)
+        session = dbSession()
+
+        return session.query(Product).filter_by(_Product__id=id).first()
 
     def edit(self):
         pass

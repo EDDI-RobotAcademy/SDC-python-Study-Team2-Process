@@ -4,6 +4,9 @@ from mysql.MySQLDatabase import MySQLDatabase
 from product.repository.ProductRepositoryImpl import ProductRepositoryImpl
 from product.service.ProductService import ProductService
 from product.service.request.ProductRequestAdd import ProductRequestAdd
+from product.service.request.ProductRequestFind import ProductRequestFind
+from product.service.request.ProductRequestRemove import ProductRequestRemove
+from product.service.response.ProductResponseInfo import ProductResponseInfo
 
 
 class ProductServiceImpl(ProductService):
@@ -14,6 +17,7 @@ class ProductServiceImpl(ProductService):
             cls.__instance = super().__new__(cls)
             cls.__instance.engine = MySQLDatabase.getInstance().getMySQLEngine()
             cls.__instance.Session = sessionmaker(bind=cls.__instance.engine)
+            cls.__instance.repository = ProductRepositoryImpl.getInstance()
         return cls.__instance
 
     def __init__(self):
@@ -31,6 +35,20 @@ class ProductServiceImpl(ProductService):
 
         request = ProductRequestAdd(**kwargs)
         print(f"request: {request}")
-        response = ProductRepositoryImpl.getInstance().add(request.toProduct())
+        response = self.repository.add(request.toProduct())
         print(f"response: {response}")
         return response
+
+    def productRemove(self, *args, **kwargs):
+        request = ProductRequestRemove(args[0])
+        response = self.repository.removeByProductId(request)
+        return response
+
+
+    def productFindById(self, *args, **kwargs):
+        request = ProductRequestFind(args[0])
+        print(f"request: {request}")
+        info = self.repository.findById(request.getProductId())
+        return info
+        # response = ProductResponseInfo(info.getId(), info.getName(), info.getPrice(), info.getInfo())
+        # return response
