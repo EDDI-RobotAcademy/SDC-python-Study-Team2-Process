@@ -2,7 +2,11 @@ import ast
 
 from account.service.request.AccountRegisterRequest import AccountRegisterRequest
 from custom_protocol.entity.CustomProtocol import CustomProtocol
+from product.service.request import ProductRequestList
+from product.service.request.ProductRequestAdd import ProductRequestAdd
+from product.service.request.ProductRequestEdit import ProductRequestEdit
 from product.service.request.ProductRequestFind import ProductRequestFind
+from product.service.request.ProductRequestRemove import ProductRequestRemove
 from request_generator.service.RequestGeneratorService import RequestGeneratorService
 
 
@@ -16,8 +20,23 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
 
             cls.__requestFormGenerationTable[
                 CustomProtocol.ACCOUNT_REGISTER.value] = cls.__instance.generateAccountRegisterRequest
+
             cls.__requestFormGenerationTable[
-                CustomProtocol.PRODUCT_INFO.value] = cls.__instance.generateProductInfoRequest
+                CustomProtocol.PRODUCT_LIST.value] = cls.__instance.generateProductRequestList
+
+            cls.__requestFormGenerationTable[
+                CustomProtocol.PRODUCT_INFO.value] = cls.__instance.generateProductRequestFind
+
+            cls.__requestFormGenerationTable[
+                CustomProtocol.PRODUCT_ADD.value] = cls.__instance.generateProductRequestAdd
+
+            cls.__requestFormGenerationTable[
+                CustomProtocol.PRODUCT_EDIT.value] = cls.__instance.generateProductRequestEdit
+
+            cls.__requestFormGenerationTable[
+                CustomProtocol.PRODUCT_REMOVE.value] = cls.__instance.generateProductRequestRemove
+
+
 
         return cls.__instance
 
@@ -47,8 +66,36 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
             __password=arguments["__password"]
         )
 
-    def generateProductInfoRequest(self, arguments):
-        print("ProductInfoRequest 생성")
+    def generateProductRequestFind(self, arguments):
+        print("ProductRequestFind 생성")
         return ProductRequestFind(
             arguments["id"]
         )
+
+    def generateProductRequestAdd(self, arguments):
+        print("ProductRequestAdd 생성")
+        return ProductRequestAdd(
+            arguments["name"],
+            arguments["price"],
+            arguments["info"]
+        )
+
+    def generateProductRequestEdit(self, arguments):
+        print("ProductRequestEdit 생성")
+        return ProductRequestEdit(
+            arguments["id"],
+            arguments["name"],
+            arguments["price"],
+            arguments["info"]
+        )
+
+    def generateProductRequestRemove(self, arguments):
+        print("ProductRequestRemove 생성")
+        return ProductRequestRemove(
+            arguments["id"]
+        )
+
+    def generateProductRequestList(self, arguments):
+        print("ProductRequestList 생성")
+        print(f"arguments: {arguments}")
+        return ProductRequestFind

@@ -33,7 +33,8 @@ class ProductServiceImpl(ProductService):
         return cls.__instance
 
     def productAdd(self, *args, **kwargs):
-        request = ProductRequestAdd(**kwargs)
+        data = args[0]
+        request = ProductRequestAdd(data[0], data[1], data[2])
         print(f"request: {request}")
         response = self.repository.add(request.toProduct())
         print(f"response: {response}")
@@ -53,10 +54,11 @@ class ProductServiceImpl(ProductService):
         # return response
 
     def productList(self, *args, **kwargs):
-        list = self.repository.findAllProducts()
-        return list
+        product_list = self.repository.findAllProducts()
+        return product_list
 
     def productEdit(self, *args, **kwargs):
-        request = ProductRequestEdit(**kwargs)
+        data = args[0]
+        request = ProductRequestEdit(data[0], data[1], data[2], data[3])
         response = self.repository.edit(request)
         return response

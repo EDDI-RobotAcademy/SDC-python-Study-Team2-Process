@@ -24,9 +24,10 @@ class TestReceiveRepository(unittest.TestCase):
         # }
 
         receivedForm = {
-            "protocol": 6,
+            "protocol": 5,
             "data": {
-                "id": 1
+
+
             }
         }
 
