@@ -8,25 +8,29 @@ from request_generator.service.RequestGeneratorServiceImpl import RequestGenerat
 from transmitter.repository.TransmitterRepositoryImpl import TransmitterRepositoryImpl
 
 
-
 class TestReceiveRepository(unittest.TestCase):
 
     def setUp(self):
         self.repository = CustomProtocolRepositoryImpl()
         self.requestGenerator = RequestGeneratorServiceImpl()
 
-
     def testReceive(self):
+        # receivedForm = {
+        #     "protocol": 1,
+        #     "data": {
+        #         "__accountId": "test_user",
+        #         "__password": "password"
+        #     }
+        # }
+
         receivedForm = {
-            "protocol" : 1,
-            "data" : {
-                "_Account___accountId" : "test_user",
-                "_Account___password" : "password"
+            "protocol": 6,
+            "data": {
+                "id": 1
             }
         }
 
         initEachDomain()
-
 
         transmitterRepository = TransmitterRepositoryImpl.getInstance()
         transmitQueue = transmitterRepository.getTransmitQueue()
@@ -48,7 +52,6 @@ class TestReceiveRepository(unittest.TestCase):
             print(f"requestGenerator: {requestGenerator}")
             requestForm = requestGenerator(receivedRequestForm)
             print(f"requestForm: {requestForm}")
-
 
             print(f"receiverRepository RequestForm: {requestForm.__dict__}")
             response = customProtocolRepository.execute(int(protocolNumber), tuple(requestForm.__dict__.values()))

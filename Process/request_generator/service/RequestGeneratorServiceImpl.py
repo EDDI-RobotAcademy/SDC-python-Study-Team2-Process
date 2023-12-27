@@ -2,6 +2,7 @@ import ast
 
 from account.service.request.AccountRegisterRequest import AccountRegisterRequest
 from custom_protocol.entity.CustomProtocol import CustomProtocol
+from product.service.request.ProductRequestFind import ProductRequestFind
 from request_generator.service.RequestGeneratorService import RequestGeneratorService
 
 
@@ -15,6 +16,8 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
 
             cls.__requestFormGenerationTable[
                 CustomProtocol.ACCOUNT_REGISTER.value] = cls.__instance.generateAccountRegisterRequest
+            cls.__requestFormGenerationTable[
+                CustomProtocol.PRODUCT_INFO.value] = cls.__instance.generateProductInfoRequest
 
         return cls.__instance
 
@@ -29,6 +32,8 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
 
     def findRequestGenerator(self, protocolNumber):
         print("request generator를 찾아옵니다")
+        print(f"protocol number:  {protocolNumber}")
+        print(f"Table: {self.__requestFormGenerationTable}")
         if self.__requestFormGenerationTable[protocolNumber] is not None:
             return self.__requestFormGenerationTable[protocolNumber]
 
@@ -40,4 +45,10 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         return AccountRegisterRequest(
             __accountId=arguments["__accountId"],
             __password=arguments["__password"]
+        )
+
+    def generateProductInfoRequest(self, arguments):
+        print("ProductInfoRequest 생성")
+        return ProductRequestFind(
+            arguments["id"]
         )
