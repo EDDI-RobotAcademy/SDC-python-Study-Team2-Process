@@ -38,7 +38,6 @@ class TestProductServiceImpl(unittest.TestCase):
         print(f"result: {result}")
 
     def testFind(self):
-        repository = ProductRepositoryImpl.getInstance()
         service = ProductServiceImpl.getInstance()
         id = 24
         result = service.productInfo(id)
