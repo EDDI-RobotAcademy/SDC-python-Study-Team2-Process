@@ -4,8 +4,10 @@ from sqlalchemy.orm import sessionmaker
 from mysql.MySQLDatabase import MySQLDatabase
 from product.entity.Product import Product
 from product.repository.ProductRepository import ProductRepository
+from product.service.request.ProductRequestFind import ProductRequestFind
 from product.service.request.ProductRequestRemove import ProductRequestRemove
 from product.service.response.ProductResponseAboutSuccess import ProductResponseAboutSuccess
+from product.service.response.ProductResponseInfo import ProductResponseInfo
 from product.service.response.ProductResponseList import ProductResponseList
 
 
@@ -64,11 +66,14 @@ class ProductRepositoryImpl(ProductRepository):
 
         return response
 
-    def findById(self, id):
+    def findById(self, request: ProductRequestFind):
+        id = request.getProductId()
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
 
-        return session.query(Product).filter_by(_Product__id=id).first()
+        info = session.query(Product).filter_by(_Product__id=id).first()
+        response = ProductResponseInfo(info.getId(), info.getName(), info.getPrice(), info.getInfo())
+        return response
 
     def edit(self):
         pass

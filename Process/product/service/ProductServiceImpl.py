@@ -43,10 +43,10 @@ class ProductServiceImpl(ProductService):
         response = self.repository.removeByProductId(request)
         return response
 
-    def productFindById(self, *args, **kwargs):
+    def productInfo(self, *args, **kwargs):
         request = ProductRequestFind(args[0])
         print(f"request: {request}")
-        info = self.repository.findById(request.getProductId())
+        info = self.repository.findById(request)
         return info
         # response = ProductResponseInfo(info.getId(), info.getName(), info.getPrice(), info.getInfo())
         # return response

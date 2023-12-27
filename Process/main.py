@@ -66,6 +66,10 @@ def initCustomProtocol():
         CustomProtocol.PRODUCT_LIST.value,
         productService.productList
     )
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.PRODUCT_INFO.value,
+        productService.productInfo
+    )
 
     print(f"enum value test: {CustomProtocol.PRODUCT_ADD.value}")
     customProtocolService.registerCustomProtocol(
@@ -78,6 +82,7 @@ def initCustomProtocol():
         CustomProtocol.PRODUCT_REMOVE.value,
         productService.productRemove
     )
+
 
 
 def initEachDomain():

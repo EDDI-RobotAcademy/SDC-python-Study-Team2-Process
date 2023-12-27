@@ -41,7 +41,7 @@ class TestProductServiceImpl(unittest.TestCase):
         repository = ProductRepositoryImpl.getInstance()
         service = ProductServiceImpl.getInstance()
         id = 24
-        result = service.productFindById(id)
+        result = service.productInfo(id)
         print(f"result: {result}")
         self.assertIsNotNone(result)
 
