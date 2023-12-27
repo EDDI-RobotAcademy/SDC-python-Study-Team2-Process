@@ -6,6 +6,7 @@ from product.entity.Product import Product
 from product.repository.ProductRepository import ProductRepository
 from product.service.request.ProductRequestRemove import ProductRequestRemove
 from product.service.response.ProductResponseAboutSuccess import ProductResponseAboutSuccess
+from product.service.response.ProductResponseList import ProductResponseList
 
 
 class ProductRepositoryImpl(ProductRepository):
@@ -72,8 +73,15 @@ class ProductRepositoryImpl(ProductRepository):
     def edit(self):
         pass
 
-    def list(self):
-        pass
+    def findAllProducts(self):
+        dbSession = sessionmaker(bind=ProductRepositoryImpl.getInstance().engine)
+        session = dbSession()
+        list = []
+        for product in session.query(Product).all():
+            response = ProductResponseList(product.getId(), product.getName(), product.getPrice())
+            list.append(response)
+
+        return list
 
     def select(self):
         pass

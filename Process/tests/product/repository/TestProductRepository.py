@@ -7,6 +7,7 @@ from mysql.MySQLDatabase import MySQLDatabase
 from product.entity.Product import Product
 from product.repository.ProductRepository import ProductRepository
 from product.repository.ProductRepositoryImpl import ProductRepositoryImpl
+from product.service.response.ProductResponseList import ProductResponseList
 
 
 class TestProductRepository(unittest.TestCase):
@@ -36,8 +37,6 @@ class TestProductRepository(unittest.TestCase):
             print(f"DB 저장 중 에러 발생: {exception}")
             return None
 
-
-
     def testRemoveByProductId(self):
         _productId = 7
         repository = ProductRepositoryImpl.getInstance()
@@ -55,10 +54,6 @@ class TestProductRepository(unittest.TestCase):
             print("올바르지 않은 상품코드입니다")
             return False
 
-
-
-
-
     def testSaveProduct(self):
         repository = ProductRepositoryImpl.getInstance()
         product_data = {
@@ -66,8 +61,6 @@ class TestProductRepository(unittest.TestCase):
             "price": 10000,
             "info": "test_info"
         }
-
-
 
         product = Product(**product_data)
         print(f"product: {product}")
@@ -91,7 +84,6 @@ class TestProductRepository(unittest.TestCase):
         self.assertIsNone(result1)
         self.assertIsNone(result2)
 
-
         # deletedAccount = repository.findByAccountId("delete_user")
         # self.assertIsNone(deletedAccount)
 
@@ -100,3 +92,12 @@ class TestProductRepository(unittest.TestCase):
         result = repository.findById(11)
         print(result)
         self.assertIsNotNone(result)
+
+    def testList(self):
+        dbSession = sessionmaker(bind=ProductRepositoryImpl.getInstance().engine)
+        session = dbSession()
+        list = []
+        for product in session.query(Product).all():
+            response = ProductResponseList(product.getId(), product.getName(), product.getPrice())
+            list.append(response)
+

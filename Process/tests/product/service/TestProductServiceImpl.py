@@ -44,3 +44,11 @@ class TestProductServiceImpl(unittest.TestCase):
         result = service.productFindById(id)
         print(f"result: {result}")
         self.assertIsNotNone(result)
+
+    def testFindAll(self):
+        repository = ProductRepositoryImpl.getInstance()
+        service = ProductServiceImpl.getInstance()
+        result = service.productList()
+        print(f"result: {result}")
+        self.assertIsNotNone(result)
+

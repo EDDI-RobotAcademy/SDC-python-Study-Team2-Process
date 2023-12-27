@@ -32,7 +32,6 @@ class ProductServiceImpl(ProductService):
         return cls.__instance
 
     def productAdd(self, *args, **kwargs):
-
         request = ProductRequestAdd(**kwargs)
         print(f"request: {request}")
         response = self.repository.add(request.toProduct())
@@ -44,7 +43,6 @@ class ProductServiceImpl(ProductService):
         response = self.repository.removeByProductId(request)
         return response
 
-
     def productFindById(self, *args, **kwargs):
         request = ProductRequestFind(args[0])
         print(f"request: {request}")
@@ -52,3 +50,7 @@ class ProductServiceImpl(ProductService):
         return info
         # response = ProductResponseInfo(info.getId(), info.getName(), info.getPrice(), info.getInfo())
         # return response
+
+    def productList(self, *args, **kwargs):
+        list = self.repository.findAllProducts()
+        return list

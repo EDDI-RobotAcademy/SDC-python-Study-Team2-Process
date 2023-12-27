@@ -15,7 +15,7 @@ class ProductRepository(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def list(self):
+    def findAllProducts(self):
         pass
 
     @abc.abstractmethod
