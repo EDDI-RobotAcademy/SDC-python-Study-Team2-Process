@@ -56,12 +56,10 @@ def initCustomProtocol():
     accountService = AccountServiceImpl.getInstance()
     productService = ProductServiceImpl.getInstance()
 
-    print(f"enum value test: {CustomProtocol.ACCOUNT_REGISTER.value}")
     customProtocolService.registerCustomProtocol(
         CustomProtocol.ACCOUNT_REGISTER.value,
         accountService.registerAccount
     )
-    print(f"enum value test: {CustomProtocol.PRODUCT_LIST.value}")
     customProtocolService.registerCustomProtocol(
         CustomProtocol.PRODUCT_LIST.value,
         productService.productList
@@ -70,14 +68,14 @@ def initCustomProtocol():
         CustomProtocol.PRODUCT_INFO.value,
         productService.productInfo
     )
-
-    print(f"enum value test: {CustomProtocol.PRODUCT_ADD.value}")
     customProtocolService.registerCustomProtocol(
         CustomProtocol.PRODUCT_ADD.value,
         productService.productAdd
     )
-
-    print(f"enum value test: {CustomProtocol.PRODUCT_REMOVE.value}")
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.PRODUCT_EDIT.value,
+        productService.productEdit
+    )
     customProtocolService.registerCustomProtocol(
         CustomProtocol.PRODUCT_REMOVE.value,
         productService.productRemove

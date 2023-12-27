@@ -52,3 +52,13 @@ class TestProductServiceImpl(unittest.TestCase):
         print(f"result: {result}")
         self.assertIsNotNone(result)
 
+    def testEdit(self):
+        editData = {
+            "id": 25,
+            "name": "editName",
+            "price": 8888,
+            "info": "editInfo"
+        }
+        service = ProductServiceImpl.getInstance()
+        result = service.productEdit(**editData)
+        self.assertTrue(result)

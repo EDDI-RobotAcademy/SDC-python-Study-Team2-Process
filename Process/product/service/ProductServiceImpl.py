@@ -4,6 +4,7 @@ from mysql.MySQLDatabase import MySQLDatabase
 from product.repository.ProductRepositoryImpl import ProductRepositoryImpl
 from product.service.ProductService import ProductService
 from product.service.request.ProductRequestAdd import ProductRequestAdd
+from product.service.request.ProductRequestEdit import ProductRequestEdit
 from product.service.request.ProductRequestFind import ProductRequestFind
 from product.service.request.ProductRequestRemove import ProductRequestRemove
 from product.service.response.ProductResponseInfo import ProductResponseInfo
@@ -54,3 +55,8 @@ class ProductServiceImpl(ProductService):
     def productList(self, *args, **kwargs):
         list = self.repository.findAllProducts()
         return list
+
+    def productEdit(self, *args, **kwargs):
+        request = ProductRequestEdit(**kwargs)
+        response = self.repository.edit(request)
+        return response

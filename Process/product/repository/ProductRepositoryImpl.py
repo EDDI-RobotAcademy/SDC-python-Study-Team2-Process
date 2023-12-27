@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from mysql.MySQLDatabase import MySQLDatabase
 from product.entity.Product import Product
 from product.repository.ProductRepository import ProductRepository
+from product.service.request.ProductRequestEdit import ProductRequestEdit
 from product.service.request.ProductRequestFind import ProductRequestFind
 from product.service.request.ProductRequestRemove import ProductRequestRemove
 from product.service.response.ProductResponseAboutSuccess import ProductResponseAboutSuccess
@@ -75,8 +76,23 @@ class ProductRepositoryImpl(ProductRepository):
         response = ProductResponseInfo(info.getId(), info.getName(), info.getPrice(), info.getInfo())
         return response
 
-    def edit(self):
-        pass
+    def edit(self, request: ProductRequestEdit):
+        dbSession = sessionmaker(bind=self.__instance.engine)
+        session = dbSession()
+
+        existingProduct = session.query(Product).filter_by(_Product__id=request.getId()).first()
+        if existingProduct:
+            if request.getNewPrice()<0:
+                response = ProductResponseAboutSuccess(False, "유효하지 않은 가격입니다!")
+            else:
+                existingProduct.editProduct(request.getNewName(), request.getNewPrice(), request.getNewInfo())
+                session.commit()
+                response = ProductResponseAboutSuccess(True, "수정 성공!")
+        else:
+            response = ProductResponseAboutSuccess(False, "상품이 존재하지 않습니다")
+
+        return response
+
 
     def findAllProducts(self):
         dbSession = sessionmaker(bind=ProductRepositoryImpl.getInstance().engine)
@@ -88,5 +104,3 @@ class ProductRepositoryImpl(ProductRepository):
 
         return list
 
-    def select(self):
-        pass

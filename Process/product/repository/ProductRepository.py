@@ -6,12 +6,13 @@ class ProductRepository(abc.ABC):
     @abc.abstractmethod
     def add(self, product):
         pass
+
     @abc.abstractmethod
-    def removeByProductId(self, productId):
+    def removeByProductId(self, request):
         pass
 
     @abc.abstractmethod
-    def edit(self):
+    def edit(self, request):
         pass
 
     @abc.abstractmethod
@@ -19,6 +20,5 @@ class ProductRepository(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def select(self):
+    def findById(self, request):
         pass
-

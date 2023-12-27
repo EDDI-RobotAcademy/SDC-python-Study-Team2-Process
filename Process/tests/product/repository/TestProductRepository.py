@@ -7,6 +7,7 @@ from mysql.MySQLDatabase import MySQLDatabase
 from product.entity.Product import Product
 from product.repository.ProductRepository import ProductRepository
 from product.repository.ProductRepositoryImpl import ProductRepositoryImpl
+from product.service.request.ProductRequestEdit import ProductRequestEdit
 from product.service.response.ProductResponseList import ProductResponseList
 
 
@@ -101,3 +102,9 @@ class TestProductRepository(unittest.TestCase):
             response = ProductResponseList(product.getId(), product.getName(), product.getPrice())
             list.append(response)
 
+
+    def testEdit(self):
+        repository = ProductRepositoryImpl.getInstance()
+        request = ProductRequestEdit(20, "newName", 777, "newInfo")
+        result = repository.edit(request)
+        self.assertTrue(result)
