@@ -58,7 +58,8 @@ def initCustomProtocol():
 
     customProtocolService.registerCustomProtocol(
         CustomProtocol.ACCOUNT_REGISTER.value,
-        accountService.registerAccount
+        accountService.registerAccount,
+
     )
     customProtocolService.registerCustomProtocol(
         CustomProtocol.PRODUCT_LIST.value,

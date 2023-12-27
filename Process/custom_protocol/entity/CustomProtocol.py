@@ -4,8 +4,8 @@ from enum import Enum
 
 class CustomProtocol(Enum):
     QUIT = 0
-    ACCOUNT_LOGIN = 1
-    ACCOUNT_REGISTER = 2
+    ACCOUNT_LOGIN = 2
+    ACCOUNT_REGISTER = 1
     ACCOUNT_LOGOUT = 3
     ACCOUNT_DELETE = 4
     PRODUCT_LIST = 5

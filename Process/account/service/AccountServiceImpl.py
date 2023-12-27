@@ -24,14 +24,23 @@ class AccountServiceImpl(AccountService):
         return cls.__instance
 
     def registerAccount(self, *args, **kwargs):
+        print("registerAccount()")
+        print(f"args: {args}")
+        print(f"kwargs: {kwargs}")
+
         cleanedElements = args[0]
+        print(f"cleanedElements: {cleanedElements}")
 
         # for i, element in enumerate(cleanedElements):
         #     print(f"각각의 요소 {i + 1}: {element}")
 
-        accountRegisterRequest = AccountRegisterRequest(cleanedElements[0], cleanedElements[1])
+        accountRegisterRequest = AccountRegisterRequest(*cleanedElements)
+        print(f"accountRegisterRequest: {accountRegisterRequest}")
         storedAccount = self.__accountRepository.save(accountRegisterRequest.toAccount())
 
-        return AccountRegisterResponse(storedAccount.getId())
+        if storedAccount.getId() is not None:
+            return AccountRegisterResponse(True)
+
+        return AccountRegisterResponse(False)
 
     
