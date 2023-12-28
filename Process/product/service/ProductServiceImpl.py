@@ -34,7 +34,7 @@ class ProductServiceImpl(ProductService):
 
     def productAdd(self, *args, **kwargs):
         data = args[0]
-        request = ProductRequestAdd(data[0], data[1], data[2])
+        request = ProductRequestAdd(*data)
         print(f"request: {request}")
         response = self.repository.add(request.toProduct())
         print(f"response: {response}")
@@ -59,6 +59,6 @@ class ProductServiceImpl(ProductService):
 
     def productEdit(self, *args, **kwargs):
         data = args[0]
-        request = ProductRequestEdit(data[0], data[1], data[2], data[3])
+        request = ProductRequestEdit(*data)
         response = self.repository.edit(request)
         return response

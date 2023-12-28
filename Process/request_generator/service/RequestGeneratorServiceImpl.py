@@ -103,9 +103,15 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
     def generateProductRequestAdd(self, arguments):
         print("ProductRequestAdd 생성")
         return ProductRequestAdd(
-            arguments["name"],
-            arguments["price"],
-            arguments["info"]
+                arguments["name"],
+                arguments["price"],
+                arguments["info"]
+        # arg = list(dict(arguments).values())
+        # print(f"arguments: {arg}")
+        # return ProductRequestAdd(
+        #     arg[0],
+        #     int(arg[1]),
+        #     arg[2]
         )
 
     def generateProductRequestEdit(self, arguments):
@@ -126,4 +132,4 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
     def generateProductRequestList(self, arguments):
         print("ProductRequestList 생성")
         print(f"arguments: {arguments}")
-        return ProductRequestFind
+        return ProductRequestList
