@@ -3,7 +3,7 @@ from mysql.MySQLDatabase import MySQLDatabase
 from order.repository.OrderRepositoryImpl import OrderRepositoryImpl
 from order.entity.Order import ProductOrder
 from order.service.OrderService import OrderService
-from order.service.request.ProductBuyRequest import productBuyRequest
+from order.service.request.ProductBuyRequest import ProductBuyRequest
 from order.service.response.ProductBuyResponse import productBuyResponse
 
 
@@ -31,7 +31,7 @@ class OrderServiceImpl(OrderService):
 
     def productBuy(self, *args, **kwargs):
         data = args[0]
-        request = productBuyRequest(*data)
+        request = ProductBuyRequest(*data)
         if request.getAccountId() == -1:
             response = productBuyResponse(False, "로그인을 해주세요(주문 불가)")
             return response
