@@ -16,7 +16,7 @@ class TestReceiveRepository(unittest.TestCase):
 
     def testReceive(self):
         # receivedForm = {
-        #     "protocol": 1,
+        #     "protocol": 2,
         #     "data": {
         #         "__accountId": "test_user",
         #         "__password": "password"
@@ -24,9 +24,11 @@ class TestReceiveRepository(unittest.TestCase):
         # }
 
         receivedForm = {
-            "protocol": 5,
+            "protocol": 7,
             "data": {
-
+                "name": "test",
+                "price": 22222,
+                "info": "wrqwe"
 
             }
         }
