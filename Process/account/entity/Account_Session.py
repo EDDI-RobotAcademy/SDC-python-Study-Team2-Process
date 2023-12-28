@@ -12,8 +12,8 @@ class Account_Session(Base):
     __tablename__ = 'session'
 
     __id: int = Column(Integer, primary_key=True, autoincrement=True, name="id")
-    __sessionId: int = Column(Integer, name="session_id")
-    __expirationTime: datetime = Column(DateTime, default=datetime.utcnow() + timedelta(hours=1), name="expiration_time")
+    __sessionId: int = Column(Integer, name="account_id")
+    __expirationTime: datetime = Column(DateTime, default=datetime.utcnow() + timedelta(hours=1), name="reg_date")
 
     def __init__(self, sessionId: int):
         self.__sessionId = sessionId

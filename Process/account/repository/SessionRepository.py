@@ -1,11 +1,11 @@
 import abc
 
-from account.entity.Account_Session import Session
+from account.entity.Account_Session import Account_Session
 
 
 class SessionRepository(abc.ABC):
     @abc.abstractmethod
-    def save(self, accountSession: Session):
+    def save(self, accountSession:Account_Session):
         pass
 
     @abc.abstractmethod

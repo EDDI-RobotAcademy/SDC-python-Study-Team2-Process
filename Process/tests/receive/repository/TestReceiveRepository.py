@@ -5,6 +5,7 @@ from socket import socket
 from custom_protocol.repository.CustomProtocolRepositoryImpl import CustomProtocolRepositoryImpl
 from main import initEachDomain
 from request_generator.service.RequestGeneratorServiceImpl import RequestGeneratorServiceImpl
+from tests.transmit.repository.TestTransmitRepository import TestTransmitRepository
 from transmitter.repository.TransmitterRepositoryImpl import TransmitterRepositoryImpl
 from utility.converter.ConvertToTransmitMessage import ConvertToTransmitMessage
 
@@ -63,10 +64,12 @@ class TestReceiveRepository(unittest.TestCase):
         #}
 
         receivedForm = {
-            "protocol": 10,
+            "protocol": 5,
             "data": {
-                "accountId": -1,
-                "productId": 20
+               # "__accountId" : "test",
+                #"__password" : "test"
+                # "accountId": -1,
+                # "productId": 20
             }
         }
 
@@ -100,9 +103,11 @@ class TestReceiveRepository(unittest.TestCase):
             print(f"response: {response}")
 
             #data = dict(response)
-           # self.sample(response)
+            # transmitMessage = self.sample2(protocolNumber, response)
             converter.convertToTransmitMessage(protocolNumber, response)
             #transmitQueue.put(response)
+           # transmitterRepository.transmitCommand()
+           #  TestTransmitRepository.getInstance().callTestTransmitRepository(transmitMessage)
 
         except socket.error as exception:
             if exception.errno == errno.EWOULDBLOCK:
