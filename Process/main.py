@@ -9,6 +9,7 @@ from account.service.AccountServiceImpl import AccountServiceImpl
 from custom_protocol.entity.CustomProtocol import CustomProtocol
 from custom_protocol.service.CustomProtocolServiceImpl import CustomProtocolServiceImpl
 from mysql.MySQLDatabase import MySQLDatabase
+from order.service.OrderServiceImpl import OrderServiceImpl
 from product.service.ProductServiceImpl import ProductServiceImpl
 from server_socket.repository.ServerSocketRepositoryImpl import ServerSocketRepositoryImpl
 from server_socket.service.ServerSocketServiceImpl import ServerSocketServiceImpl
@@ -55,6 +56,7 @@ def initCustomProtocol():
     customProtocolService = CustomProtocolServiceImpl.getInstance()
     accountService = AccountServiceImpl.getInstance()
     productService = ProductServiceImpl.getInstance()
+    orderService = OrderServiceImpl.getInstance()
 
     customProtocolService.registerCustomProtocol(
         CustomProtocol.ACCOUNT_REGISTER.value,
@@ -80,6 +82,11 @@ def initCustomProtocol():
     customProtocolService.registerCustomProtocol(
         CustomProtocol.PRODUCT_REMOVE.value,
         productService.productRemove
+    )
+
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.ORDER_PURCHASE.value,
+        orderService.productBuy
     )
 
 

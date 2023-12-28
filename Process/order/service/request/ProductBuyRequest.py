@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from order.entity.Order import ProductOrder
 
 @dataclass
-class productBuyRequest:
+class ProductBuyRequest:
     __accountId: int
     __productId: int
 

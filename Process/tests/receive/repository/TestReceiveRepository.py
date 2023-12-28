@@ -23,13 +23,20 @@ class TestReceiveRepository(unittest.TestCase):
         #     }
         # }
 
-        receivedForm = {
-            "protocol": 7,
-            "data": {
-                "name": "test",
-                "price": 22222,
-                "info": "wrqwe"
+        #receivedForm = {
+        #    "protocol": 7,
+        #    "data": {
+        #        "name": "test",
+        #        "price": 22222,
+        #        "info": "wrqwe"
+        #    }
+        #}
 
+        receivedForm = {
+            "protocol" : 10,
+            "data":{
+                "accountId": 5,
+                "productId": 20
             }
         }
 
