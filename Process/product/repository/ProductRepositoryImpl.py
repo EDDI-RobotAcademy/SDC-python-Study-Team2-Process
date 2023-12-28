@@ -4,6 +4,12 @@ from sqlalchemy.orm import sessionmaker
 from mysql.MySQLDatabase import MySQLDatabase
 from product.entity.Product import Product
 from product.repository.ProductRepository import ProductRepository
+from product.service.request.ProductRequestEdit import ProductRequestEdit
+from product.service.request.ProductRequestFind import ProductRequestFind
+from product.service.request.ProductRequestRemove import ProductRequestRemove
+from product.service.response.ProductResponseAboutSuccess import ProductResponseAboutSuccess
+from product.service.response.ProductResponseInfo import ProductResponseInfo
+from product.service.response.ProductResponseList import ProductResponseList
 
 
 class ProductRepositoryImpl(ProductRepository):
@@ -26,23 +32,28 @@ class ProductRepositoryImpl(ProductRepository):
             cls.__instance = cls()
         return cls.__instance
 
-    def add(self, _product):
+    def add(self, product):
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
+        response = None
 
         try:
-            session.add(_product)
+            session.add(product)
             session.commit()
 
-            print(f"product - id: {_product.getId()}")
-            return _product
+            print(f"product - id: {product.getId()}")
+            response = ProductResponseAboutSuccess(True, "")
 
         except SQLAlchemyError as exception:
             session.rollback()
             print(f"DB 저장 중 에러 발생: {exception}")
-            return None
+            response = ProductResponseAboutSuccess(True, str(exception))
 
-    def removeByProductId(self, _productId):
+        finally:
+            return response
+
+    def removeByProductId(self, request: ProductRequestRemove):
+        _productId = request.getProductId()
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
 
@@ -50,17 +61,46 @@ class ProductRepositoryImpl(ProductRepository):
         if product:
             session.delete(product)
             session.commit()
-            print("삭제 완료")
-            return True
+            response = ProductResponseAboutSuccess(True, "삭제 완료")
         else:
-            print("올바르지 않은 상품 코드")
-            return False
+            response = ProductResponseAboutSuccess(False, "올바르지 않은 상품 코드입니다")
 
-    def edit(self):
-        pass
+        return response
 
-    def list(self):
-        pass
+    def findById(self, request: ProductRequestFind):
+        id = request.getProductId()
+        dbSession = sessionmaker(bind=self.__instance.engine)
+        session = dbSession()
 
-    def select(self):
-        pass
+        info = session.query(Product).filter_by(_Product__id=id).first()
+        response = ProductResponseInfo(info.getId(), info.getName(), info.getPrice(), info.getInfo())
+        return response
+
+    def edit(self, request: ProductRequestEdit):
+        dbSession = sessionmaker(bind=self.__instance.engine)
+        session = dbSession()
+
+        existingProduct = session.query(Product).filter_by(_Product__id=request.getId()).first()
+        if existingProduct:
+            if request.getNewPrice()<0:
+                response = ProductResponseAboutSuccess(False, "유효하지 않은 가격입니다!")
+            else:
+                existingProduct.editProduct(request.getNewName(), request.getNewPrice(), request.getNewInfo())
+                session.commit()
+                response = ProductResponseAboutSuccess(True, "수정 성공!")
+        else:
+            response = ProductResponseAboutSuccess(False, "상품이 존재하지 않습니다")
+
+        return response
+
+
+    def findAllProducts(self):
+        dbSession = sessionmaker(bind=ProductRepositoryImpl.getInstance().engine)
+        session = dbSession()
+        list = []
+        for product in session.query(Product).all():
+            response = ProductResponseList(product.getId(), product.getName(), product.getPrice())
+            list.append(response)
+
+        return list
+

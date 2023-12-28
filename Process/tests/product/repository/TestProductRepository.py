@@ -7,6 +7,8 @@ from mysql.MySQLDatabase import MySQLDatabase
 from product.entity.Product import Product
 from product.repository.ProductRepository import ProductRepository
 from product.repository.ProductRepositoryImpl import ProductRepositoryImpl
+from product.service.request.ProductRequestEdit import ProductRequestEdit
+from product.service.response.ProductResponseList import ProductResponseList
 
 
 class TestProductRepository(unittest.TestCase):
@@ -36,8 +38,6 @@ class TestProductRepository(unittest.TestCase):
             print(f"DB 저장 중 에러 발생: {exception}")
             return None
 
-
-
     def testRemoveByProductId(self):
         _productId = 7
         repository = ProductRepositoryImpl.getInstance()
@@ -55,10 +55,6 @@ class TestProductRepository(unittest.TestCase):
             print("올바르지 않은 상품코드입니다")
             return False
 
-
-
-
-
     def testSaveProduct(self):
         repository = ProductRepositoryImpl.getInstance()
         product_data = {
@@ -68,7 +64,7 @@ class TestProductRepository(unittest.TestCase):
         }
 
         product = Product(**product_data)
-
+        print(f"product: {product}")
         result = repository.add(product)
 
         self.assertTrue(result)
@@ -84,12 +80,31 @@ class TestProductRepository(unittest.TestCase):
         repository.add(product)
 
         result1 = repository.removeByProductId(1)
-        result2 = repository.removeByProductId(9)
+        result2 = repository.removeByProductId(10)
 
         self.assertIsNone(result1)
         self.assertIsNone(result2)
 
-
         # deletedAccount = repository.findByAccountId("delete_user")
         # self.assertIsNone(deletedAccount)
 
+    def testFind(self):
+        repository = ProductRepositoryImpl.getInstance()
+        result = repository.findById(11)
+        print(result)
+        self.assertIsNotNone(result)
+
+    def testList(self):
+        dbSession = sessionmaker(bind=ProductRepositoryImpl.getInstance().engine)
+        session = dbSession()
+        list = []
+        for product in session.query(Product).all():
+            response = ProductResponseList(product.getId(), product.getName(), product.getPrice())
+            list.append(response)
+
+
+    def testEdit(self):
+        repository = ProductRepositoryImpl.getInstance()
+        request = ProductRequestEdit(20, "newName", 777, "newInfo")
+        result = repository.edit(request)
+        self.assertTrue(result)

@@ -1,24 +1,24 @@
 import abc
 
 
-class ProductRepository():
+class ProductRepository(abc.ABC):
 
     @abc.abstractmethod
-    def add(self, _product):
-        pass
-    @abc.abstractmethod
-    def remove(self):
+    def add(self, product):
         pass
 
     @abc.abstractmethod
-    def edit(self):
+    def removeByProductId(self, request):
         pass
 
     @abc.abstractmethod
-    def list(self):
+    def edit(self, request):
         pass
 
     @abc.abstractmethod
-    def select(self):
+    def findAllProducts(self):
         pass
 
+    @abc.abstractmethod
+    def findById(self, request):
+        pass
