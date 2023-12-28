@@ -1,6 +1,6 @@
 import abc
 
-from account.entity.Session import Session
+from account.entity.Account_Session import Session
 
 
 class SessionRepository(abc.ABC):

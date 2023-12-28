@@ -8,7 +8,7 @@ Base = declarative_base()
 
 
 @dataclass
-class Session(Base):
+class Account_Session(Base):
     __tablename__ = 'session'
 
     __id: int = Column(Integer, primary_key=True, autoincrement=True, name="id")

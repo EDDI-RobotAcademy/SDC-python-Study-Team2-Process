@@ -1,6 +1,6 @@
 from sqlalchemy.orm import sessionmaker
 
-from account.entity.Session import Session
+from account.entity.Account_Session import Session
 from account.repository.SessionRepository import SessionRepository
 from mysql.MySQLDatabase import MySQLDatabase
 from sqlalchemy.exc import SQLAlchemyError

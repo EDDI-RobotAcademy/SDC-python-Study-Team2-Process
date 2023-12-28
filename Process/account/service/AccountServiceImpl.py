@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 
+from account.entity.Account_Session import Account_Session
 from account.repository.AccountRepositoryImpl import AccountRepositoryImpl
 from account.repository.SessionRepositoryImpl import SessionRepositoryImpl
 from account.service.AccountService import AccountService
@@ -69,7 +70,7 @@ class AccountServiceImpl(AccountService):
 
         if foundAccount.checkPassword(accountLoginRequest.getPassword()):
             # sessionRepository = SessionRepositoryImpl.getInstance()
-            accountSession = Session(foundAccount.getId())
+            accountSession = Account_Session(foundAccount.getId())
             # sessionRepository.save(accountSession)
             self.__sessionRepository.save(accountSession)
 
