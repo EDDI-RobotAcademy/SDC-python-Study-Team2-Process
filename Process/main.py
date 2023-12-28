@@ -62,6 +62,20 @@ def initCustomProtocol():
 
     )
     customProtocolService.registerCustomProtocol(
+        CustomProtocol.ACCOUNT_LOGIN.value,
+        accountService.loginAccount
+    )
+
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.ACCOUNT_LOGOUT.value,
+        accountService.logoutAccount
+    )
+
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.ACCOUNT_DELETE.value,
+        accountService.deleteAccount
+    )
+    customProtocolService.registerCustomProtocol(
         CustomProtocol.PRODUCT_LIST.value,
         productService.productList
     )
