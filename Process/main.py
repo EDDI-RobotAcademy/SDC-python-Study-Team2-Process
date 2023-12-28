@@ -97,12 +97,10 @@ def initCustomProtocol():
         CustomProtocol.PRODUCT_REMOVE.value,
         productService.productRemove
     )
-
     customProtocolService.registerCustomProtocol(
         CustomProtocol.ORDER_PURCHASE.value,
         orderService.productBuy
     )
-
 
 
 def initEachDomain():

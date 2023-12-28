@@ -5,13 +5,13 @@ from account.service.request.AccountLoginRequest import AccountLoginRequest
 from account.service.request.AccountLogoutRequest import AccountLogoutRequest
 from account.service.request.AccountRegisterRequest import AccountRegisterRequest
 from custom_protocol.entity.CustomProtocol import CustomProtocol
+from order.service.request.ProductBuyRequest import ProductBuyRequest
 from product.service.request import ProductRequestList
 from product.service.request.ProductRequestAdd import ProductRequestAdd
 from product.service.request.ProductRequestEdit import ProductRequestEdit
 from product.service.request.ProductRequestFind import ProductRequestFind
 from product.service.request.ProductRequestRemove import ProductRequestRemove
 from request_generator.service.RequestGeneratorService import RequestGeneratorService
-from order.service.request.ProductBuyRequest import ProductOrder, ProductBuyRequest
 
 
 class RequestGeneratorServiceImpl(RequestGeneratorService):

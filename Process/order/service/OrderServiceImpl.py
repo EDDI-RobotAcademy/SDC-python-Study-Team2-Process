@@ -31,7 +31,6 @@ class OrderServiceImpl(OrderService):
 
     def productBuy(self, *args, **kwargs):
         data = args[0]
-        print(data)
         request = ProductBuyRequest(*data)
         if request.getAccountId() == -1:
             response = productBuyResponse(False, "로그인을 해주세요(주문 불가)")
