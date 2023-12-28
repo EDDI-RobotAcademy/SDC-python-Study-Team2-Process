@@ -1,6 +1,7 @@
+
 from sqlalchemy.orm import sessionmaker
 
-from account.entity.Session import Session
+from account.entity.Account_Session import Account_Session
 from account.repository.SessionRepository import SessionRepository
 from mysql.MySQLDatabase import MySQLDatabase
 from sqlalchemy.exc import SQLAlchemyError
@@ -26,14 +27,18 @@ class SessionRepositoryImpl(SessionRepository):
             cls.__instance = cls()
         return cls.__instance
 
-    def save(self, accountSession: Session):
+    def save(self, accountSession):
         print("SessionRepositoryImpl: save()")
+        print(f"accountSession: {accountSession}")
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
 
         try:
+            print("1")
             session.add(accountSession)
+            print("2")
             session.commit()
+            print("3")
 
             print(f"accountSession - id: {accountSession.getSessionId()}")
             return accountSession
@@ -47,19 +52,19 @@ class SessionRepositoryImpl(SessionRepository):
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
 
-        return session.query(Session).filter_by(_Session__id=id).first()
+        return session.query(Account_Session).filter_by(_Session__id=id).first()
 
     def findBySessionId(self, sessionId):
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
 
-        return session.query(Session).filter_by(_Session__sessionId=sessionId).first()
+        return session.query(Account_Session).filter_by(_Session__sessionId=sessionId).first()
 
     def deleteBySessionId(self, sessionId):
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
 
-        accountSession = session.query(Session).filter_by(_Session__sessionId=sessionId).first()
+        accountSession = session.query(Account_Session).filter_by(_Session__sessionId=sessionId).first()
         if accountSession:
             session.delete(accountSession)
             session.commit()

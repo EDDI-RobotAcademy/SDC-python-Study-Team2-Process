@@ -4,7 +4,7 @@ from account.entity.Account_Session import Account_Session
 
 
 @dataclass
-class AccountLogoutRequest:
+class SessionLogoutRequest:
     __accountSessionId: int
 
     def toSession(self):

@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 
+from account.entity.Account_Session import Account_Session
 from account.repository.AccountRepositoryImpl import AccountRepositoryImpl
 from account.repository.SessionRepositoryImpl import SessionRepositoryImpl
 from account.service.AccountService import AccountService
@@ -8,8 +9,8 @@ from account.service.request.AccountLoginRequest import AccountLoginRequest
 from account.service.request.AccountLogoutRequest import AccountLogoutRequest
 from account.service.request.AccountRegisterRequest import AccountRegisterRequest
 from account.service.response.AccountDeleteResponse import AccountDeleteResponse
-from account.service.response.AccountLoginReponse import AccountLoginResponse
-from account.service.response.AccountLogoutReponse import AccountLogoutResponse
+from account.service.response.AccountLoginResponse import AccountLoginResponse
+from account.service.response.AccountLogoutResponse import AccountLogoutResponse
 from account.service.response.AccountRegisterResponse import AccountRegisterResponse
 
 
@@ -64,17 +65,18 @@ class AccountServiceImpl(AccountService):
         accountLoginRequest = AccountLoginRequest(*cleanedElements)
         foundAccount = self.__accountRepository.findByAccountId(accountLoginRequest.getAccountId())
         print(f"foundAccount: {foundAccount}")
+        print(1)
         if foundAccount is None:
             return AccountLoginResponse(-1)
-
+        print(1)
         if foundAccount.checkPassword(accountLoginRequest.getPassword()):
             # sessionRepository = SessionRepositoryImpl.getInstance()
-            accountSession = Session(foundAccount.getId())
+            accountSession = Account_Session(foundAccount.getId())
             # sessionRepository.save(accountSession)
             self.__sessionRepository.save(accountSession)
 
             return AccountLoginResponse(foundAccount.getId())
-
+        print(2)
         return AccountLoginResponse(-1)
 
     def logoutAccount(self, *args, **kwargs):

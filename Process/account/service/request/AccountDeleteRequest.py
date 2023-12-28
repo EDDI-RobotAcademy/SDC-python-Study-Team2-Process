@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from account.entity.Session import Session
+from account.entity.Account_Session import Account_Session
 
 
 @dataclass
@@ -8,7 +8,7 @@ class AccountDeleteRequest:
     __accountSessionId: int
 
     def toSession(self):
-        return Session(self.__accountSessionId)
+        return Account_Session(self.__accountSessionId)
 
     def __init__(self, accountSessionId=None, **kwargs):
         if accountSessionId is not None:
