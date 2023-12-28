@@ -4,7 +4,7 @@ from account.entity.Account import Account
 
 
 @dataclass
-class AccountRegisterRequest:
+class AccountLoginRequest:
     __accountId: str
     __password: str
 
@@ -23,5 +23,9 @@ class AccountRegisterRequest:
     def createFromTuple(cls, inputTuple):
         return cls(*inputTuple)
 
-    def toDeleteAccount(self):
-        return Account(self.__accountId)
+    def getAccountId(self):
+        return self.__accountId
+
+    def getPassword(self):
+        return self.__password
+
