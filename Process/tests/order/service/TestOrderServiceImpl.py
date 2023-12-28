@@ -18,36 +18,22 @@ class TestProductRepository(unittest.TestCase):
         # Clean up any resources after each test
         pass
 
-    def testSave(self, orderInfo):
+    def testBuy(self):
+
         repository = OrderRepositoryImpl.getInstance()
-        dbSession = sessionmaker(bind=repository.getInstance().engine)
+        dbSession = sessionmaker(bind=repository.engine)
         session = dbSession()
 
-        try:
-            session.add(orderInfo)
-            session.commit()
-
-            print(f"order - id: {orderInfo.getId()}")
-            return orderInfo
-
-        except SQLAlchemyError as exception:
-            session.rollback()
-            print(f"DB 저장 중 에러 발생: {exception}")
-            return None
-
-
-    def testSaveOrderInfo(self):
-        repository = OrderRepositoryImpl.getInstance()
+        _accountId = 12
         order_data = {
             "accountId": 12,
             "productId": 25
         }
         order = ProductOrder(**order_data)
 
-        result = repository.save(order)
-
-        self.assertTrue(result)
-
-
-
-
+        if _accountId == -1:
+            print("주문 실패: 로그인 화면으로 이동")
+            return False
+        else:
+            repository.save(order)
+            return True

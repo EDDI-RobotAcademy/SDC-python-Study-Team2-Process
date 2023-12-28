@@ -14,7 +14,7 @@ class ProductOrder(Base):
     __accountId: int = Column(Integer, name="account_id")
     __productId: int = Column(Integer, name="product_id")
 
-    def __init__(self, accountId: str, productId: str):
+    def __init__(self, accountId: int, productId: int):
         self.__accountId = accountId
         self.__productId = productId
 

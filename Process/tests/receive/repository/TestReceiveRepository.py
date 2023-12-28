@@ -6,6 +6,7 @@ from custom_protocol.repository.CustomProtocolRepositoryImpl import CustomProtoc
 from main import initEachDomain
 from request_generator.service.RequestGeneratorServiceImpl import RequestGeneratorServiceImpl
 from transmitter.repository.TransmitterRepositoryImpl import TransmitterRepositoryImpl
+from utility.converter.ConvertToTransmitMessage import ConvertToTransmitMessage
 
 
 class TestReceiveRepository(unittest.TestCase):
@@ -13,6 +14,35 @@ class TestReceiveRepository(unittest.TestCase):
     def setUp(self):
         self.repository = CustomProtocolRepositoryImpl()
         self.requestGenerator = RequestGeneratorServiceImpl()
+
+
+    def sample(self, *arg):
+        print(f"sample arg[0]: {arg[0]}")
+        result = None
+        if(type(arg[0]) == list):
+            print(f"arg is list!!")
+            result = []
+            for data in arg[0]:
+                result.append(dict(data))
+
+            #result = {"list": arr}
+        else:
+            try:
+                result = dict(arg[0])
+                print(f"data is: {result}")
+
+            except Exception as e:
+                print(e)
+        return result
+
+    def sample2(self, protocolNumber, *arg):
+
+
+        combinedRequestData = {
+            'protocol': protocolNumber,
+            'data': self.sample(*arg)
+        }
+        print(f"combinedRequestData: {combinedRequestData}")
 
     def testReceive(self):
         # receivedForm = {
@@ -41,6 +71,8 @@ class TestReceiveRepository(unittest.TestCase):
         customProtocolRepository = CustomProtocolRepositoryImpl.getInstance()
         requestGeneratorService = RequestGeneratorServiceImpl.getInstance()
 
+        converter = ConvertToTransmitMessage.getInstance()
+
         try:
 
             protocolNumber = receivedForm["protocol"]
@@ -60,8 +92,12 @@ class TestReceiveRepository(unittest.TestCase):
             response = customProtocolRepository.execute(int(protocolNumber), tuple(requestForm.__dict__.values()))
             print(f"response: {response}")
 
-            transmitQueue.put(response)
+            #data = dict(response)
+           # self.sample(response)
+            converter.convertToTransmitMessage(protocolNumber, response)
+            #transmitQueue.put(response)
 
         except socket.error as exception:
             if exception.errno == errno.EWOULDBLOCK:
                 pass
+
