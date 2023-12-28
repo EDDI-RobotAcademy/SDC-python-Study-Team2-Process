@@ -10,6 +10,8 @@ from transmitter.repository.TransmitterRepositoryImpl import TransmitterReposito
 
 import re
 
+from utility.converter.ConvertToTransmitMessage import ConvertToTransmitMessage
+
 
 class ReceiverRepositoryImpl(ReceiverRepository):
     __instance = None
@@ -34,6 +36,8 @@ class ReceiverRepositoryImpl(ReceiverRepository):
 
         customProtocolRepository = CustomProtocolRepositoryImpl.getInstance()
         requestGeneratorService = RequestGeneratorServiceImpl.getInstance()
+
+        converter = ConvertToTransmitMessage.getInstance()
 
         while True:
             try:
@@ -82,7 +86,9 @@ class ReceiverRepositoryImpl(ReceiverRepository):
                 response = customProtocolRepository.execute(int(protocolNumber), tuple(requestForm.__dict__.values()))
                 print(f"response: {response}")
 
-                transmitQueue.put(response)
+                converter.convertToTransmitMessage(protocolNumber, response)
+
+                # transmitQueue.put(response)
             except socket.error as exception:
                 if exception.errno == errno.EWOULDBLOCK:
                     pass

@@ -42,12 +42,12 @@ class ProductRepositoryImpl(ProductRepository):
             session.commit()
 
             print(f"product - id: {product.getId()}")
-            response = ProductResponseAboutSuccess(True, "")
+            response = ProductResponseAboutSuccess(True, "저장 성공")
 
         except SQLAlchemyError as exception:
             session.rollback()
             print(f"DB 저장 중 에러 발생: {exception}")
-            response = ProductResponseAboutSuccess(True, str(exception))
+            response = ProductResponseAboutSuccess(False, str(exception))
 
         finally:
             return response

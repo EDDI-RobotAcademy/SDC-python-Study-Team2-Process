@@ -1,5 +1,8 @@
 import ast
 
+from account.service.request.AccountDeleteRequest import AccountDeleteRequest
+from account.service.request.AccountLoginRequest import AccountLoginRequest
+from account.service.request.AccountLogoutRequest import AccountLogoutRequest
 from account.service.request.AccountRegisterRequest import AccountRegisterRequest
 from custom_protocol.entity.CustomProtocol import CustomProtocol
 from product.service.request import ProductRequestList
@@ -20,7 +23,16 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
             cls.__instance = super().__new__(cls)
 
             cls.__requestFormGenerationTable[
+                CustomProtocol.ACCOUNT_LOGIN.value] = cls.__instance.generateAccountLoginRequest
+
+            cls.__requestFormGenerationTable[
                 CustomProtocol.ACCOUNT_REGISTER.value] = cls.__instance.generateAccountRegisterRequest
+
+            cls.__requestFormGenerationTable[
+                CustomProtocol.ACCOUNT_LOGOUT.value] = cls.__instance.generateAccountLogoutRequest
+
+            cls.__requestFormGenerationTable[
+                CustomProtocol.ACCOUNT_DELETE.value] = cls.__instance.generateAccountDeleteRequest
 
             cls.__requestFormGenerationTable[
                 CustomProtocol.PRODUCT_LIST.value] = cls.__instance.generateProductRequestList
@@ -68,6 +80,22 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         return AccountRegisterRequest(
             __accountId=arguments["__accountId"],
             __password=arguments["__password"]
+        )
+    def generateAccountLoginRequest(self, arguments):
+        print("RequestGeneratorService - AccountLoginRequest 생성")
+        return AccountLoginRequest(
+            __accountId=arguments["__accountId"],
+            __password=arguments["__password"]
+        )
+
+    def generateAccountLogoutRequest(self, arguments):
+        return AccountLogoutRequest(
+            __accountSessionId=arguments["__accountSessionId"]
+        )
+
+    def generateAccountDeleteRequest(self, arguments):
+        return AccountDeleteRequest(
+            __accountSessionId=arguments["__accountSessionId"]
         )
 
     def generateProductRequestFind(self, arguments):
