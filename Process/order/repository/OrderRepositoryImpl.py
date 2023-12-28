@@ -26,7 +26,7 @@ class OrderRepositoryImpl(OrderRepository):
             cls.__instance = cls()
         return cls.__instance
 
-    def save(self, orderInfo):
+    def saveOrderInfo(self, orderInfo):
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
 
@@ -41,3 +41,4 @@ class OrderRepositoryImpl(OrderRepository):
             session.rollback()
             print(f"DB 저장 중 에러 발생: {exception}")
             return None
+
