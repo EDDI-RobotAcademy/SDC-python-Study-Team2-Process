@@ -6,6 +6,9 @@ from main import initEachDomain
 from request_generator.service.RequestGeneratorServiceImpl import RequestGeneratorServiceImpl
 from tests.transmit.repository.TestTransmitRepository import TestTransmitRepository
 from transmitter.repository.TransmitterRepositoryImpl import TransmitterRepositoryImpl
+from utility.converter.ConvertToTransmitMessage import ConvertToTransmitMessage
+
+
 class TestReceiveRepository(unittest.TestCase):
     def setUp(self):
         self.repository = CustomProtocolRepositoryImpl()
@@ -21,10 +24,9 @@ class TestReceiveRepository(unittest.TestCase):
 
         receivedForm = {
 
-            "protocol": 1,
+            "protocol": 6,
             "data": {
-                "__accountId": "eddi",
-                "__password" : "eddi@123"
+                "id" : 20
 
             }
         }
@@ -33,6 +35,8 @@ class TestReceiveRepository(unittest.TestCase):
         transmitQueue = transmitterRepository.getTransmitQueue()
         customProtocolRepository = CustomProtocolRepositoryImpl.getInstance()
         requestGeneratorService = RequestGeneratorServiceImpl.getInstance()
+        converter = ConvertToTransmitMessage.getInstance()
+
         try:
             protocolNumber = receivedForm["protocol"]
             receivedRequestForm = receivedForm["data"]
