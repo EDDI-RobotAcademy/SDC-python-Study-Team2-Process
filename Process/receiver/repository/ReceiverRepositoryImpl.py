@@ -83,7 +83,7 @@ class ReceiverRepositoryImpl(ReceiverRepository):
                 #             cleanedElementList.append(cleanedElement)
 
                 print(f"receiverRepository RequestForm: {requestForm.__dict__}")
-                response = customProtocolRepository.execute(int(protocolNumber), tuple(requestForm.__dict__.values()))
+                response = customProtocolRepository.execute(int(protocolNumber), requestForm)
                 print(f"response: {response}")
 
                 #transmitMessage = converter.convertToTransmitMessage(protocolNumber, response)

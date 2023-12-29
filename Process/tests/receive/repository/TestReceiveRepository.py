@@ -24,12 +24,11 @@ class TestReceiveRepository(unittest.TestCase):
 
         receivedForm = {
 
-           "protocol": 5,
+           "protocol": 11,
            "data": {
-               "id" : 21,
-
-
+               "sessionId" : 12,
            }
+
         }
 
         # receivedForm = {
