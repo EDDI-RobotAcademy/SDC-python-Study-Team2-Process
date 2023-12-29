@@ -104,11 +104,11 @@ class TestReceiveRepository(unittest.TestCase):
 
             #data = dict(response)
             # transmitMessage = self.sample2(protocolNumber, response)
-            converter.convertToTransmitMessage(protocolNumber, response)
+            transmitMessage = converter.convertToTransmitMessage(protocolNumber, response)
             #transmitQueue.put(response)
            # transmitterRepository.transmitCommand()
            #  TestTransmitRepository.getInstance().callTestTransmitRepository(transmitMessage)
-
+            transmitQueue.put(transmitMessage)
         except socket.error as exception:
             if exception.errno == errno.EWOULDBLOCK:
                 pass
