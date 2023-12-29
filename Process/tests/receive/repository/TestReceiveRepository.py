@@ -22,26 +22,26 @@ class TestReceiveRepository(unittest.TestCase):
         #     }
         # }
 
-        #receivedForm = {
-        #
-        #    "protocol": 5,
-        #    "data": {
-        #        "id" : 21,
-        #
-        #
-        #    }
-        #}
-
         receivedForm = {
 
-          "protocol": 10,
-          "data": {
-                "accountId" : -1,
-                "productId" : 5
+           "protocol": 5,
+           "data": {
+               "id" : 21,
 
 
-          }
+           }
         }
+
+        # receivedForm = {
+        #
+        #   "protocol": 10,
+        #   "data": {
+        #         "accountId" : -1,
+        #         "productId" : 5
+        #
+        #
+        #   }
+        # }
 
         initEachDomain()
         transmitterRepository = TransmitterRepositoryImpl.getInstance()
