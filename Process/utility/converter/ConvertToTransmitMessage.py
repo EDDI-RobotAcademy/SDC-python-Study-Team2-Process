@@ -24,11 +24,11 @@ class ConvertToTransmitMessage:
         else:
             try:
                 result = dict(arg[0])
-                print(f"data is: {result}")
 
             except Exception as e:
                 result = f"DataConverterError: {e}"
                 print(e)
+        print(f"data is: {result}")
         return result
 
     def convertToTransmitMessage(self, protocolNumber, *arg):

@@ -33,20 +33,25 @@ class ProductServiceImpl(ProductService):
         return cls.__instance
 
     def productAdd(self, *args, **kwargs):
-        data = args[0]
-        request = ProductRequestAdd(*data)
+        # data = args[0]
+        # request = ProductRequestAdd(*data)
+        request = args[0]
         print(f"request: {request}")
         response = self.repository.add(request.toProduct())
         print(f"response: {response}")
         return response
 
     def productRemove(self, *args, **kwargs):
-        request = ProductRequestRemove(args[0])
+        request = args[0]
+        #request = ProductRequestRemove(args[0])
         response = self.repository.removeByProductId(request)
         return response
 
     def productInfo(self, *args, **kwargs):
-        request = ProductRequestFind(args[0])
+        #print(f"args: {args[0]}")
+        #print(f"kwargs: {kwargs}")
+        #request = ProductRequestFind(args[0])
+        request = args[0]
         print(f"request: {request}")
         info = self.repository.findById(request)
         return info
@@ -58,7 +63,8 @@ class ProductServiceImpl(ProductService):
         return product_list
 
     def productEdit(self, *args, **kwargs):
-        data = args[0]
-        request = ProductRequestEdit(*data)
+        # data = args[0]
+        # request = ProductRequestEdit(*data)
+        request = args[0]
         response = self.repository.edit(request)
         return response

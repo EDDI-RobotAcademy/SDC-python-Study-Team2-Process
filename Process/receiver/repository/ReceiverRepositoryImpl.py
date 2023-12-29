@@ -86,7 +86,8 @@ class ReceiverRepositoryImpl(ReceiverRepository):
                 response = customProtocolRepository.execute(int(protocolNumber), tuple(requestForm.__dict__.values()))
                 print(f"response: {response}")
 
-                transmitMessage = converter.convertToTransmitMessage(protocolNumber, response)
+                #transmitMessage = converter.convertToTransmitMessage(protocolNumber, response)
+                transmitMessage = converter.convertToData(response)
                 transmitQueue.put(transmitMessage)
 
             except socket.error as exception:
