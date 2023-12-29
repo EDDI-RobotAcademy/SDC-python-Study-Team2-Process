@@ -3,5 +3,5 @@ import abc
 
 class OrderService(abc.ABC):
     @abc.abstractmethod
-    def productBuy(self, *args, **kwargs):
+    def orderInfoRegister(self, *args, **kwargs):
         pass

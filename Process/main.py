@@ -99,7 +99,7 @@ def initCustomProtocol():
     )
     customProtocolService.registerCustomProtocol(
         CustomProtocol.ORDER_PURCHASE.value,
-        orderService.productBuy
+        orderService.orderInfoRegister
     )
 
 
