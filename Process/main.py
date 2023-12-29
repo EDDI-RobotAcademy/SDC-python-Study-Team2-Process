@@ -61,8 +61,8 @@ def initCustomProtocol():
     customProtocolService.registerCustomProtocol(
         CustomProtocol.ACCOUNT_REGISTER.value,
         accountService.registerAccount,
-
     )
+
     customProtocolService.registerCustomProtocol(
         CustomProtocol.ACCOUNT_LOGIN.value,
         accountService.loginAccount
