@@ -1,3 +1,5 @@
+import json
+
 from transmitter.repository.TransmitterRepositoryImpl import TransmitterRepositoryImpl
 
 
@@ -29,7 +31,7 @@ class ConvertToTransmitMessage:
                 result = f"DataConverterError: {e}"
                 print(e)
         print(f"data is: {result}")
-        return result
+        return json.dumps(result)
 
     def convertToTransmitMessage(self, protocolNumber, *arg):
 
