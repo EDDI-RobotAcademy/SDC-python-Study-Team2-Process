@@ -3,8 +3,8 @@ from mysql.MySQLDatabase import MySQLDatabase
 from order.repository.OrderRepositoryImpl import OrderRepositoryImpl
 from order.entity.Order import ProductOrder
 from order.service.OrderService import OrderService
-from order.service.request.ProductBuyRequest import ProductBuyRequest
-from order.service.response.ProductBuyResponse import productBuyResponse
+from order.service.request.OrderInfoRegisterRequest import OrderInfoRegisterRequest
+from order.service.response.OrderInfoRegisterResponse import OrderInfoRegisterResponse
 
 
 class OrderServiceImpl(OrderService):
@@ -40,22 +40,23 @@ class OrderServiceImpl(OrderService):
     #        self.repository.add(request.toOrder())
     #        return response
 
-    def productBuy(self, *args, **kwargs):
-        data = args[0]
-        print(f"아이디들 잘 들어 왔니?: {data}")
-        request = ProductBuyRequest(*data)
+    def orderInfoRegister(self, *args, **kwargs):
+        #data = args[0]
+        #print(f"아이디들 잘 들어 왔니?: {data}")
+        #request = ProductBuyRequest(*data)
+        request = args[0]
 
         if request.getAccountId() == -1:
-            response = productBuyResponse(False, "로그인을 해주세요(주문 불가)")
+            response = OrderInfoRegisterResponse(False, "로그인을 해주세요(주문 불가)")
             return response
         else:
             order_info = request.toOrder()
             saved_order = self.repository.saveOrderInfo(order_info)
 
             if saved_order:
-                response = productBuyResponse(True, "주문이 완료되었습니다.")
+                response = OrderInfoRegisterResponse(True, "주문이 완료되었습니다.")
             else:
-                response = productBuyResponse(False, "주문을 저장하는데 문제 발생")
+                response = OrderInfoRegisterResponse(False, "주문을 저장하는데 문제 발생")
             return response
 
 

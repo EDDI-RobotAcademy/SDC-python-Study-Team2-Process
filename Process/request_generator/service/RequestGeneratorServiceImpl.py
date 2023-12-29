@@ -5,7 +5,7 @@ from account.service.request.AccountLoginRequest import AccountLoginRequest
 from account.service.request.AccountLogoutRequest import AccountLogoutRequest
 from account.service.request.AccountRegisterRequest import AccountRegisterRequest
 from custom_protocol.entity.CustomProtocol import CustomProtocol
-from order.service.request.ProductBuyRequest import ProductBuyRequest
+from order.service.request.OrderInfoRegisterRequest import OrderInfoRegisterRequest
 from product.service.request import ProductRequestList
 from product.service.request.ProductRequestAdd import ProductRequestAdd
 from product.service.request.ProductRequestEdit import ProductRequestEdit
@@ -141,7 +141,7 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
     def generateProductOrder(self, arguments):
         print("ProductOrder 생성")
         print(f"arguments: {arguments}")
-        return ProductBuyRequest(
+        return OrderInfoRegisterRequest(
             arguments["accountId"],
             arguments["productId"]
         )
