@@ -27,6 +27,7 @@ class ConvertToTransmitMessage:
                 print(f"data is: {result}")
 
             except Exception as e:
+                result = f"DataConverterError: {e}"
                 print(e)
         return result
 
@@ -40,4 +41,5 @@ class ConvertToTransmitMessage:
             'data': self.convertToData(*arg)
         }
         print(f"combinedRequestData: {combinedRequestData}")
-        transmitQueue.put(combinedRequestData)
+        return combinedRequestData
+        #transmitQueue.put(combinedRequestData)
