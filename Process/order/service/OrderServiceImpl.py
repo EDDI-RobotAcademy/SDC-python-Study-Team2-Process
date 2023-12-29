@@ -61,15 +61,12 @@ class OrderServiceImpl(OrderService):
 
         sessionId = request.getSessionId()
         print(f"sessionId: {sessionId}")
-        #  accountId = OrderRepositoryImpl.getInstance().findAccountId(sessionId)
-        # order db에서 accountId로 productId를 받는 걸 추가
 
-        # print(f"accountId들 전부 잘 가져 왔니?: {accountId}")
+        productIdList = self.repository.findAllProductIdByAccountId(sessionId)
+        print(f"productIdList:{productIdList}")
 
-        result = self.repository.findAllProductIdByAccountId(sessionId)
-        print(result)
         response = []
-        for productId in result:
+        for productId in productIdList:
             data = ProductServiceImpl.getInstance().productInfo(ProductRequestFind(productId))
             response.append(OrderListResponse(data.getName(), data.getPrice()))
 
