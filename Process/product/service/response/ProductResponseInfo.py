@@ -28,3 +28,9 @@ class ProductResponseInfo:
             "price": self.__price,
             "info": self.__info
         }
+
+    def getName(self):
+        return self.__name
+
+    def getPrice(self):
+        return self.__price

@@ -5,6 +5,10 @@ from order.entity.Order import ProductOrder
 from order.service.OrderService import OrderService
 from order.service.request.OrderInfoRegisterRequest import OrderInfoRegisterRequest
 from order.service.response.OrderInfoRegisterResponse import OrderInfoRegisterResponse
+from order.service.response.OrderListResponse import OrderListResponse
+from product.repository.ProductRepositoryImpl import ProductRepositoryImpl
+from product.service.ProductServiceImpl import ProductServiceImpl
+from product.service.request.ProductRequestFind import ProductRequestFind
 
 
 class OrderServiceImpl(OrderService):
@@ -16,6 +20,7 @@ class OrderServiceImpl(OrderService):
             cls.__instance.engine = MySQLDatabase.getInstance().getMySQLEngine()
             cls.__instance.Session = sessionmaker(bind=cls.__instance.engine)
             cls.__instance.repository = OrderRepositoryImpl.getInstance()
+            cls.__instance.productService = ProductServiceImpl.getInstance()
         return cls.__instance
 
     def __init__(self):
@@ -29,24 +34,13 @@ class OrderServiceImpl(OrderService):
             cls.__instance = cls()
         return cls.__instance
 
-    #def productBuy(self, *args, **kwargs):
-    #    data = args[0]
-    #    request = ProductBuyRequest(*data)
-    #    if request.getAccountId() == -1:
-    #        response = productBuyResponse(False, "로그인을 해주세요(주문 불가)")
-    #        return response
-    #    else:
-    #        response = productBuyResponse(True, "주문이 완료되었습니다.")
-    #        self.repository.add(request.toOrder())
-    #        return response
 
     def orderInfoRegister(self, *args, **kwargs):
-        #data = args[0]
-        #print(f"아이디들 잘 들어 왔니?: {data}")
-        #request = ProductBuyRequest(*data)
-        request = args[0]
 
-        if request.getAccountId() == -1:
+        request = args[0]
+        print(f"사용자 주문 요청 잘 들어 왔니?: {request}")
+
+        if request.getSessionId() == -1:
             response = OrderInfoRegisterResponse(False, "로그인을 해주세요(주문 불가)")
             return response
         else:
@@ -58,5 +52,28 @@ class OrderServiceImpl(OrderService):
             else:
                 response = OrderInfoRegisterResponse(False, "주문을 저장하는데 문제 발생")
             return response
+
+
+    def orderList(self, *args, **kwargs):
+
+        request = args[0]
+        print(f"주문 내역 요청 잘 들어 왔니?: {request}")
+
+        sessionId = request.getSessionId()
+        print(f"sessionId: {sessionId}")
+        #  accountId = OrderRepositoryImpl.getInstance().findAccountId(sessionId)
+        # order db에서 accountId로 productId를 받는 걸 추가
+
+        # print(f"accountId들 전부 잘 가져 왔니?: {accountId}")
+
+        result = self.repository.findAllProductIdByAccountId(sessionId)
+        print(result)
+        response = []
+        for productId in result:
+            data = ProductServiceImpl.getInstance().productInfo(ProductRequestFind(productId))
+            response.append(OrderListResponse(data.getName(), data.getPrice()))
+
+        print(f"response: {response}")
+        return response
 
 

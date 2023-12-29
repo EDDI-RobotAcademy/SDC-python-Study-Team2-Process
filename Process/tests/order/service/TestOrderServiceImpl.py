@@ -6,7 +6,11 @@ from sqlalchemy.orm import sessionmaker
 from mysql.MySQLDatabase import MySQLDatabase
 from order.repository.OrderRepositoryImpl import OrderRepositoryImpl
 from order.entity.Order import ProductOrder
-
+from order.service.OrderServiceImpl import OrderServiceImpl
+from order.service.request.OrderListRequest import OrderListRequest
+from product.repository.ProductRepositoryImpl import ProductRepositoryImpl
+from product.service.ProductServiceImpl import ProductServiceImpl
+from product.service.request.ProductRequestFind import ProductRequestFind
 
 
 class TestProductRepository(unittest.TestCase):
@@ -18,11 +22,9 @@ class TestProductRepository(unittest.TestCase):
         # Clean up any resources after each test
         pass
 
-    def testBuy(self):
+    def testorderInfoRegister(self):
 
         repository = OrderRepositoryImpl.getInstance()
-        dbSession = sessionmaker(bind=repository.engine)
-        session = dbSession()
 
         _accountId = 12
         order_data = {
@@ -35,5 +37,30 @@ class TestProductRepository(unittest.TestCase):
             print("주문 실패: 로그인 화면으로 이동")
             return False
         else:
-            repository.save(order)
+            repository.saveOrderInfo(order)
             return True
+
+
+    def testOrderList(self):
+        repository = OrderRepositoryImpl.getInstance()
+        request = OrderListRequest(12)
+        print(f"주문 내역 요청 잘 들어 왔니?: {request}")
+
+        sessionId = request.getSessionId()
+        print(f"sessionId: {sessionId}")
+      #  accountId = OrderRepositoryImpl.getInstance().findAccountId(sessionId)
+        # order db에서 accountId로 productId를 받는 걸 추가
+
+        #print(f"accountId들 전부 잘 가져 왔니?: {accountId}")
+
+        result = repository.findAllProductIdByAccountId(sessionId)
+        print(result)
+        response = []
+        for productId in result:
+
+            response.append(ProductServiceImpl.getInstance().productInfo(ProductRequestFind(productId)))
+
+        print(f"response: {response}")
+
+       # productInfo = self.productService.findById()
+       # print(f"뭐가 출력이 되는 거지?: {productInfo}")

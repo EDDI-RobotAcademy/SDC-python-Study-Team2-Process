@@ -6,6 +6,7 @@ from account.service.request.AccountLogoutRequest import AccountLogoutRequest
 from account.service.request.AccountRegisterRequest import AccountRegisterRequest
 from custom_protocol.entity.CustomProtocol import CustomProtocol
 from order.service.request.OrderInfoRegisterRequest import OrderInfoRegisterRequest
+from order.service.request.OrderListRequest import OrderListRequest
 from product.service.request import ProductRequestList
 from product.service.request.ProductRequestAdd import ProductRequestAdd
 from product.service.request.ProductRequestEdit import ProductRequestEdit
@@ -50,7 +51,10 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
                 CustomProtocol.PRODUCT_REMOVE.value] = cls.__instance.generateProductRequestRemove
 
             cls.__requestFormGenerationTable[
-                CustomProtocol.ORDER_PURCHASE.value] = cls.__instance.generateProductOrder
+                CustomProtocol.ORDER_PURCHASE.value] = cls.__instance.generateOrderInfoRegisterRequest
+
+            cls.__requestFormGenerationTable[
+                CustomProtocol.ORDER_LIST.value] = cls.__instance.generateOrderListRequest
 
 
 
@@ -138,10 +142,17 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         print(f"arguments: {arguments}")
         return ProductRequestList
 
-    def generateProductOrder(self, arguments):
+    def generateOrderInfoRegisterRequest(self, arguments):
         print("ProductOrder 생성")
         print(f"arguments: {arguments}")
         return OrderInfoRegisterRequest(
-            arguments["accountId"],
+            arguments["sessionId"],
             arguments["productId"]
+        )
+
+    def generateOrderListRequest(self, arguments):
+        print("OrderListRequest 생성")
+        print(f"arguments: {arguments}")
+        return OrderListRequest(
+            arguments["sessionId"]
         )

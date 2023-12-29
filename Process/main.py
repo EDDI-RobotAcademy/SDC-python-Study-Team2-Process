@@ -101,6 +101,10 @@ def initCustomProtocol():
         CustomProtocol.ORDER_PURCHASE.value,
         orderService.orderInfoRegister
     )
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.ORDER_LIST.value,
+        orderService.orderList
+    )
 
 
 def initEachDomain():
