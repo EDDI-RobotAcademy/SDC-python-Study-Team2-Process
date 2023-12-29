@@ -3,6 +3,7 @@ from transmitter.repository.TransmitterRepositoryImpl import TransmitterReposito
 
 class ConvertToTransmitMessage:
     __instance = None
+
     @classmethod
     def getInstance(cls):
         if cls.__instance is None:
@@ -11,7 +12,6 @@ class ConvertToTransmitMessage:
 
     def __init__(self):
         print("ConvertToTransmitMessage 생성자 호출")
-
 
     def convertToData(self, *arg):
         result = None
@@ -27,10 +27,11 @@ class ConvertToTransmitMessage:
                 print(f"data is: {result}")
 
             except Exception as e:
+                result = f"DataConverterError: {e}"
                 print(e)
         return result
 
-    def convertToTransmitMessage(self, protocolNumber:int, *arg):
+    def convertToTransmitMessage(self, protocolNumber, *arg):
 
         transmitterRepository = TransmitterRepositoryImpl.getInstance()
         transmitQueue = transmitterRepository.getTransmitQueue()
@@ -40,4 +41,5 @@ class ConvertToTransmitMessage:
             'data': self.convertToData(*arg)
         }
         print(f"combinedRequestData: {combinedRequestData}")
-        transmitQueue.put(combinedRequestData)
+        return combinedRequestData
+        #transmitQueue.put(combinedRequestData)

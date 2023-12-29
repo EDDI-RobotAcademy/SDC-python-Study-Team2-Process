@@ -27,6 +27,7 @@ class SessionRepositoryImpl(SessionRepository):
             cls.__instance = cls()
         return cls.__instance
 
+
     def save(self, accountSession):
         print("SessionRepositoryImpl: save()")
         print(f"accountSession: {accountSession}")
