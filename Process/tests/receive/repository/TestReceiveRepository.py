@@ -24,9 +24,10 @@ class TestReceiveRepository(unittest.TestCase):
 
         receivedForm = {
 
-            "protocol": 6,
+            "protocol": 5,
             "data": {
-                "id" : 20
+                "id" : 21,
+
 
             }
         }
@@ -49,13 +50,14 @@ class TestReceiveRepository(unittest.TestCase):
             requestForm = requestGenerator(receivedRequestForm)
             print(f"requestForm: {requestForm}")
             print(f"receiverRepository RequestForm: {requestForm.__dict__}")
-            response = customProtocolRepository.execute(int(protocolNumber), tuple(requestForm.__dict__.values()))
+            response = customProtocolRepository.execute(int(protocolNumber), requestForm)
             print(f"response: {response}")
 
 
             #data = dict(response)
             # transmitMessage = self.sample2(protocolNumber, response)
-            transmitMessage = converter.convertToTransmitMessage(protocolNumber, response)
+            #transmitMessage = converter.convertToTransmitMessage(protocolNumber, response)
+            transmitMessage = converter.convertToData(response)
             #transmitQueue.put(response)
            # transmitterRepository.transmitCommand()
            #  TestTransmitRepository.getInstance().callTestTransmitRepository(transmitMessage)
