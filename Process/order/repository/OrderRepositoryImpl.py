@@ -52,9 +52,9 @@ class OrderRepositoryImpl(OrderRepository):
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
 
-        data = session.query(ProductOrder).filter_by(_ProductOrder__accountId=accountId).all()
-        result = []
-        for item in data:
-            result.append(item.getProductId())
+        accountIdList = session.query(ProductOrder).filter_by(_ProductOrder__accountId=accountId).all()
+        productIdList = []
+        for id in accountIdList:
+            productIdList.append(id.getProductId())
 
-        return result
+        return productIdList
