@@ -27,12 +27,9 @@ class CustomProtocolRepositoryImpl(CustomProtocolRepository):
 
     # 참고로 python은 '__' 가 붙으면 무조건 private 입니다.
     def __importCustomProtocol(self, protocolNumber, pointerOfFunction):
-        print("python 스타일에 맞게 타입 추론이 필요함")
-        print(f"protocolNumber: {protocolNumber}, pointerOfFunction: {pointerOfFunction}")
 
         if callable(pointerOfFunction):
             customProtocolTableLength = len(self.__customProtocolTable)
-            print(f"customProtocolTableLength: {customProtocolTableLength}")
 
             if customProtocolTableLength > protocolNumber + 1:
                 self.__customProtocolTable[protocolNumber] = pointerOfFunction
@@ -43,13 +40,9 @@ class CustomProtocolRepositoryImpl(CustomProtocolRepository):
         else:
             print("실행 할 수 없는 형태입니다.")
     def register(self, protocolNumber, pointerOfFunction):
-        print(f"{protocolNumber} 번호에 대응할 Handler: {pointerOfFunction}")
-
         self.__importCustomProtocol(protocolNumber, pointerOfFunction)
 
     def __protocolTableExecution(self, protocolNumber, *arguments, **mapArguments):
-        print(f"protocolNumber: {protocolNumber}")
-        print(f"customProtocolTable: {self.__customProtocolTable}")
         if self.__customProtocolTable[protocolNumber] is not self.notImplemented:
             pointerOfFunction = self.__customProtocolTable[protocolNumber]
             print(f"pointerOfFunction: {pointerOfFunction}")
@@ -59,13 +52,13 @@ class CustomProtocolRepositoryImpl(CustomProtocolRepository):
         print(f"{protocolNumber} 프로토콜은 등록된 적이 없습니다.")
 
     def execute(self, protocolNumber, *arguments, **mapArguments):
-        print(f"arguments: {arguments}")
-        print(f"{protocolNumber} 를 실행합니다!")
         clearedArguments = arguments[0]
         # for key, value in mapArguments.items():
         #     print(f"{key}: {value}")
 
         return self.__protocolTableExecution(protocolNumber, *arguments, **mapArguments)
+
+
 
 
 

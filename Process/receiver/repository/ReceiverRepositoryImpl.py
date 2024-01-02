@@ -41,24 +41,21 @@ class ReceiverRepositoryImpl(ReceiverRepository):
 
         while True:
             try:
-                receivedRequest = clientSocket.recv(1024)
+                receivedRequest = clientSocket.recv(2048)
                 if not receivedRequest:
-                    clientSocket.closeSocket()
+                    print("ReceiverRepositoryImpl: 소켓종료")
+                    # transmitter에게 접속이 종료되었다고 알려야합니다.
+                    transmitQueue.put(0)
+                    clientSocket.close()
                     break
                 receivedForm = json.loads(receivedRequest)
 
                 protocolNumber = receivedForm["protocol"]
+
                 receivedRequestForm = receivedForm["data"]
 
-                print(f"typeof protocolNumber: {type(protocolNumber)}")
-                print(f"protocolNumber: {protocolNumber}")
-                print(f"typeof requestForm: {type(receivedRequestForm)}")
-                print(f"receivedRequestForm: {receivedRequestForm}")
-
                 requestGenerator = requestGeneratorService.findRequestGenerator(protocolNumber)
-                print(f"requestGenerator: {requestGenerator}")
                 requestForm = requestGenerator(receivedRequestForm)
-                print(f"requestForm: {requestForm}")
 
                 # decodedRequest = receivedRequest.decode('utf-8')
                 # print(f'수신된 정보: {decodedRequest}')
@@ -82,16 +79,18 @@ class ReceiverRepositoryImpl(ReceiverRepository):
                 #
                 #             cleanedElementList.append(cleanedElement)
 
-                print(f"receiverRepository RequestForm: {requestForm.__dict__}")
                 response = customProtocolRepository.execute(int(protocolNumber), requestForm)
                 print(f"response: {response}")
 
                 #transmitMessage = converter.convertToTransmitMessage(protocolNumber, response)
                 transmitMessage = converter.convertToData(response)
                 transmitQueue.put(transmitMessage)
+            except Exception as e:
+                 print(f"ReceiverRepositoryImpl error: {e}")
 
             except socket.error as exception:
+                print(f"socket error: {exception}")
                 if exception.errno == errno.EWOULDBLOCK:
-                    pass
+                    clientSocket.closeSocket()
             finally:
                 sleep(0.5)
