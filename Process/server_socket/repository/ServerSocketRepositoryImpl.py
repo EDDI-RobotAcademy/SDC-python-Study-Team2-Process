@@ -83,3 +83,6 @@ class ServerSocketRepositoryImpl(ServerSocketRepository):
 
     def getClientSocketList(self):
         return self.__clientSocketList
+
+    def closeSocket(self):
+        self.__serverSocket.close()

@@ -27,23 +27,30 @@ class TransmitterRepositoryImpl(TransmitterRepository):
     def transmitCommand(self, clientSocket):
         while True:
             try:
+
+                print(f"transmitter socket: {clientSocket}")
                 print("transmitter: 응답 준비")
                 response = self.__transmitQueue.get()
-
                 if response is not None:
-                    responseStr = str(response)
-                    print(f"응답할 내용: {response}")
-                    clientSocket.sendall(responseStr.encode())
+                    if response == 0:
+                        print("transmitter: 종료~~~")
+                        clientSocket.close()
+                        break
+                    else:
+                        responseStr = str(response)
+                        print(f"응답할 내용: {response}")
+                        clientSocket.sendall(responseStr.encode())
+
 
             except (socket.error, BrokenPipeError) as exception:
-                print(f"사용자 연결 종료")
+                print(f"사용자 연결 종료: {exception}")
                 return None
 
             except socket.error as exception:
                 print(f"전송 중 에러 발생: str{exception}")
 
             except Exception as exception:
-                print("원인을 알 수 없는 에러가 발생하였습니다")
+                print(f"원인을 알 수 없는 에러가 발생하였습니다: {exception}")
 
             finally:
                 sleep(0.5)
