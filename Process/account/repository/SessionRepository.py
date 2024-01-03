@@ -20,3 +20,7 @@ class SessionRepository(abc.ABC):
     @abc.abstractmethod
     def deleteBySessionId(self, sessionId):
         pass
+
+    @abc.abstractmethod
+    def resetDB(self):
+        pass

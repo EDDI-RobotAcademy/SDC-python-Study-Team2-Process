@@ -1,3 +1,4 @@
+import atexit
 
 from sqlalchemy.orm import sessionmaker
 
@@ -20,6 +21,7 @@ class SessionRepositoryImpl(SessionRepository):
         print("SessionRepositoryImpl 생성자 호출")
         self.__receiverTask = None
         self.__transmitterTask = None
+        atexit.register(self.resetDB)
 
     @classmethod
     def getInstance(cls):
@@ -53,13 +55,13 @@ class SessionRepositoryImpl(SessionRepository):
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
 
-        return session.query(Account_Session).filter_by(_Session__id=id).first()
+        return session.query(Account_Session).filter_by(_Account_Session__id=id).first()
 
     def findBySessionId(self, sessionId):
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
 
-        return session.query(Account_Session).filter_by(_Session__sessionId=sessionId).first()
+        return session.query(Account_Session).filter_by(_Account_Session__sessionId=sessionId).first()
 
     def deleteBySessionId(self, sessionId):
         print("deleteBySessionId 호출: {sessionId}")
@@ -72,3 +74,17 @@ class SessionRepositoryImpl(SessionRepository):
             session.delete(accountSession)
             session.commit()
 
+    def resetDB(self):
+
+        dbSession = sessionmaker(bind=self.__instance.engine)
+        session = dbSession()
+
+        remainedData = session.query(Account_Session).all()
+        print (f"remainedData: {remainedData}")
+        for data in remainedData:
+            print(f"data: {data}")
+            session.delete(data)
+        session.commit()
+        # for data in remainedData:
+        #
+        # session.commit()

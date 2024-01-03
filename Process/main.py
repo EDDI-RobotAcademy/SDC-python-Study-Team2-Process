@@ -42,6 +42,7 @@ def initMysqlInstanceAlternatives():
     mysqlDatabase.connect()
 
 
+
 def initServerSocketDomain():
     serverSocketRepository = ServerSocketRepositoryImpl()
     ServerSocketServiceImpl(serverSocketRepository)
@@ -134,6 +135,7 @@ if __name__ == '__main__':
     serverSocketService.bindServerSocket()
     serverSocketService.setServerListenNumber(15)
     serverSocketService.setBlockingOperation()
+
 
     # taskManageService = TaskManageServiceImpl.getInstance()
 

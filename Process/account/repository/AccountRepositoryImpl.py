@@ -62,7 +62,10 @@ class AccountRepositoryImpl(AccountRepository):
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
 
-        print(dir(Account))
+        # print(dir(Account))
+        print(f"AccountRepositoryImpl: findByAccountId: {accountId}")
+        print(f"AccountRepositoryImpl: {session.query(Account).filter_by(_Account__accountId=accountId).all()}")
+        print(f"AccountRepostiory: {str(session.query(Account).filter_by(_Account__accountId=accountId).limit(1))}")
 
         return session.query(Account).filter_by(_Account__accountId=accountId).first()
 

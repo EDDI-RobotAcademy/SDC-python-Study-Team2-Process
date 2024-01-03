@@ -61,6 +61,7 @@ class ReceiverRepositoryImpl(ReceiverRepository):
                 protocolNumber = receivedForm["protocol"]
 
                 receivedRequestForm = receivedForm["data"]
+                print(f"receivedRequestForm: {receivedRequestForm}")
 
                 requestGenerator = requestGeneratorService.findRequestGenerator(protocolNumber)
                 requestForm = requestGenerator(receivedRequestForm)
