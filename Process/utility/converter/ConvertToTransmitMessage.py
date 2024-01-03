@@ -31,7 +31,10 @@ class ConvertToTransmitMessage:
                 result = f"DataConverterError: {e}"
                 print(e)
         print(f"data is: {result}")
-        return json.dumps(result)
+        print(f"data str: {str(result)}")
+        print(f"data is: {result.__str__}")
+        return str(result)
+        # return json.dumps(result)
 
     def convertToTransmitMessage(self, protocolNumber, *arg):
 
