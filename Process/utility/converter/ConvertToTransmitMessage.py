@@ -46,5 +46,5 @@ class ConvertToTransmitMessage:
             'data': self.convertToData(*arg)
         }
         print(f"combinedRequestData: {combinedRequestData}")
-        return combinedRequestData
+        return str(combinedRequestData)
         #transmitQueue.put(combinedRequestData)

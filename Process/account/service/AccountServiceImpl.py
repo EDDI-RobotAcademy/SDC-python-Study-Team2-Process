@@ -73,7 +73,9 @@ class AccountServiceImpl(AccountService):
 
         if foundAccount.checkPassword(accountLoginRequest.getPassword()):
             # sessionRepository = SessionRepositoryImpl.getInstance()
+            print(f"foundAccountId: {foundAccount.getId()}")
             accountSession = Account_Session(foundAccount.getId())
+            print(f"accountSession: {accountSession}")
             # sessionRepository.save(accountSession)
             self.__sessionRepository.save(accountSession)
 
