@@ -3,6 +3,8 @@ import json
 from socket import socket
 from time import sleep
 
+from account.repository.SessionRepositoryImpl import SessionRepositoryImpl
+from account.service.response.AccountLoginResponse import AccountLoginResponse
 from custom_protocol.repository.CustomProtocolRepositoryImpl import CustomProtocolRepositoryImpl
 from receiver.repository.ReceiverRepository import ReceiverRepository
 from request_generator.service.RequestGeneratorServiceImpl import RequestGeneratorServiceImpl
@@ -10,6 +12,7 @@ from transmitter.repository.TransmitterRepositoryImpl import TransmitterReposito
 
 import re
 
+from utility.SocketSessionRepository import SocketSessionRepository
 from utility.converter.ConvertToTransmitMessage import ConvertToTransmitMessage
 
 
@@ -46,6 +49,11 @@ class ReceiverRepositoryImpl(ReceiverRepository):
                     print("ReceiverRepositoryImpl: 소켓종료")
                     # transmitter에게 접속이 종료되었다고 알려야합니다.
                     transmitQueue.put(0)
+                    if clientSocket in SocketSessionRepository.getSocketSession():
+
+                        SessionRepositoryImpl.getInstance().deleteBySessionId(SocketSessionRepository.getSocketSession()[clientSocket])
+                        SocketSessionRepository.deleteSocketSession(clientSocket)
+
                     clientSocket.close()
                     break
                 receivedForm = json.loads(receivedRequest)
@@ -81,6 +89,11 @@ class ReceiverRepositoryImpl(ReceiverRepository):
 
                 response = customProtocolRepository.execute(int(protocolNumber), requestForm)
                 print(f"response 응답!: {response}")
+
+                if type(response) == AccountLoginResponse:
+                    print("SocketSessionRepository: 호출 완료")
+                    if response.getSessionAccountId != -1:
+                        SocketSessionRepository.saveSocketSession(clientSocket, response.getSessionAccountId())
 
                 #transmitMessage = converter.convertToTransmitMessage(protocolNumber, response)
                 transmitMessage = converter.convertToData(response)
