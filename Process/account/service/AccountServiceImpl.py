@@ -40,35 +40,37 @@ class AccountServiceImpl(AccountService):
         print(f"args: {args}")
         print(f"kwargs: {kwargs}")
 
-        cleanedElements = args[0]
-        print(f"cleanedElements: {cleanedElements}")
-
-        # for i, element in enumerate(cleanedElements):
-        #     print(f"각각의 요소 {i + 1}: {element}")
-
-        accountRegisterRequest = AccountRegisterRequest(*cleanedElements)
+        accountRegisterRequest = args[0]
+        # print(f"cleanedElements: {cleanedElements}")
+        #
+        # # for i, element in enumerate(cleanedElements):
+        # #     print(f"각각의 요소 {i + 1}: {element}")
+        #
+        # accountRegisterRequest = AccountRegisterRequest(*cleanedElements)
         print(f"accountRegisterRequest: {accountRegisterRequest}")
+        if self.__accountRepository.findByAccountId(accountRegisterRequest.getAccountId()):
+            return AccountRegisterResponse(False, "이미 존재하는 아이디입니다.")
+
         storedAccount = self.__accountRepository.save(accountRegisterRequest.toAccount())
 
         if storedAccount.getId() is not None:
             return AccountRegisterResponse(True)
 
-        return AccountRegisterResponse(False)
+        return AccountRegisterResponse(False, "알 수 없는 이유로 실패하였습니다.")
 
     def loginAccount(self, *args, **kwargs):
         print("loginAccount()")
         print(f"args: {args}")
 
-        cleanedElements = args[0]
-        print(f"cleanedElements: {cleanedElements}")
-
-        accountLoginRequest = AccountLoginRequest(*cleanedElements)
+        accountLoginRequest = args[0]
+        # print(f"cleanedElements: {cleanedElements}")
+        #
+        # accountLoginRequest = AccountLoginRequest(*cleanedElements)
         foundAccount = self.__accountRepository.findByAccountId(accountLoginRequest.getAccountId())
         print(f"foundAccount: {foundAccount}")
-        print(1)
         if foundAccount is None:
-            return AccountLoginResponse(-1)
-        print(1)
+            return AccountLoginResponse(-1, "계정이 존재하지 않습니다.")
+
         if foundAccount.checkPassword(accountLoginRequest.getPassword()):
             # sessionRepository = SessionRepositoryImpl.getInstance()
             accountSession = Account_Session(foundAccount.getId())
@@ -76,21 +78,20 @@ class AccountServiceImpl(AccountService):
             self.__sessionRepository.save(accountSession)
 
             return AccountLoginResponse(foundAccount.getId())
-        print(2)
-        return AccountLoginResponse(-1)
+        return AccountLoginResponse(-1, "아이디와 비밀번호를 확인 해 주세요.")
 
     def logoutAccount(self, *args, **kwargs):
         print("AccountService - logoutAccount()")
         print(f"args: {args}")
 
-        cleanedElements = args[0]
-        print(f"cleanedElements: {cleanedElements}")
-
-        accountLoginRequest = AccountLogoutRequest(*cleanedElements)
-        foundAccount = self.__accountRepository.findById(accountLoginRequest.getAccountSessionId())
+        accountLogoutRequest = args[0]
+        # print(f"cleanedElements: {cleanedElements}")
+        #
+        # accountLogoutRequest = AccountLogoutRequest(*cleanedElements)
+        foundAccount = self.__accountRepository.findById(accountLogoutRequest.getAccountSessionId())
         print(f"foundAccount: {foundAccount}")
         if foundAccount is None:
-            return AccountLogoutResponse(False)
+            return AccountLogoutResponse(False, "유효하지 않은 요청입니다.")
 
         self.__sessionRepository.deleteBySessionId(foundAccount.getId())
 
@@ -99,13 +100,13 @@ class AccountServiceImpl(AccountService):
     def deleteAccount(self, *args, **kwargs):
         print("AccountService - deleteAccount()")
 
-        cleanedElements = args[0]
+        accountDeleteRequest = args[0]
 
-        accountLoginRequest = AccountDeleteRequest(*cleanedElements)
-        foundAccount = self.__accountRepository.findById(accountLoginRequest.getAccountSessionId())
+        # accountLoginRequest = AccountDeleteRequest(*cleanedElements)
+        foundAccount = self.__accountRepository.findById(accountDeleteRequest.getAccountSessionId())
         print(f"foundAccount: {foundAccount}")
         if foundAccount is None:
-            return AccountDeleteResponse(False)
+            return AccountDeleteResponse(False, "유효하지 않은 계정입니다.")
 
         self.__sessionRepository.deleteBySessionId(foundAccount.getId())
         self.__accountRepository.deleteById(foundAccount.getId())
