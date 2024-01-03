@@ -7,6 +7,7 @@ from account.service.request.AccountRegisterRequest import AccountRegisterReques
 from custom_protocol.entity.CustomProtocol import CustomProtocol
 from order.service.request.OrderInfoRegisterRequest import OrderInfoRegisterRequest
 from order.service.request.OrderListRequest import OrderListRequest
+from order.service.request.OrderRemoveRequest import OrderRemoveRequest
 from product.service.request import ProductRequestList
 from product.service.request.ProductRequestAdd import ProductRequestAdd
 from product.service.request.ProductRequestEdit import ProductRequestEdit
@@ -55,6 +56,9 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
 
             cls.__requestFormGenerationTable[
                 CustomProtocol.ORDER_LIST.value] = cls.__instance.generateOrderListRequest
+
+            cls.__requestFormGenerationTable[
+                CustomProtocol.ORDER_DELETE.value] = cls.__instance.generateOrderRemoveRequest
 
 
 
@@ -155,4 +159,12 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         print(f"arguments: {arguments}")
         return OrderListRequest(
             arguments["sessionId"]
+        )
+
+    def generateOrderRemoveRequest(self, arguments):
+        print("OrderRemoveRequest 생성")
+        print(f"arguments: {arguments}")
+        return OrderRemoveRequest(
+            arguments["sessionId"],
+            arguments["productId"]
         )

@@ -39,14 +39,25 @@ class TestProductRepository(unittest.TestCase):
     def testSaveOrderInfo(self):
         repository = OrderRepositoryImpl.getInstance()
         order_data = {
-            "accountId": 12,
-            "productId": 25
+            "accountId": 14,
+            "productId": 9
         }
         order = ProductOrder(**order_data)
 
-        result = repository.save(order)
+        result = repository.saveOrderInfo(order)
 
         self.assertTrue(result)
+
+
+    def testdelete(self):
+        repository = OrderRepositoryImpl.getInstance()
+        order_data = {
+            "accountId": 12,
+            "productId": 25
+        }
+        result = repository.removeProductsByAccountId(12,25)
+        self.assertTrue(result)
+
 
 
 
