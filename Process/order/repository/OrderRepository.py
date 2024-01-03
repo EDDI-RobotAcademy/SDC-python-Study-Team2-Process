@@ -10,3 +10,7 @@ class OrderRepository(abc.ABC):
     @abc.abstractmethod
     def findAccountId(self, accountId):
         pass
+
+    @abc.abstractmethod
+    def removeProductsByAccountId(self, sessionId, productId):
+        pass

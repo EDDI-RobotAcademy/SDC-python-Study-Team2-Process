@@ -24,9 +24,10 @@ class TestReceiveRepository(unittest.TestCase):
 
         receivedForm = {
 
-           "protocol": 11,
+           "protocol": 12,
            "data": {
-               "sessionId" : 12,
+               "sessionId" : 5,
+               "productId" : 20
            }
 
         }
@@ -62,7 +63,7 @@ class TestReceiveRepository(unittest.TestCase):
             print(f"requestForm: {requestForm}")
             print(f"receiverRepository RequestForm: {requestForm.__dict__}")
             response = customProtocolRepository.execute(int(protocolNumber), requestForm)
-            print(f"response: {response}")
+            print(f"response 응답해라: {response}")
 
 
             #data = dict(response)

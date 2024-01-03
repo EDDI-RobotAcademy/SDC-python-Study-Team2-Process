@@ -80,7 +80,7 @@ class ReceiverRepositoryImpl(ReceiverRepository):
                 #             cleanedElementList.append(cleanedElement)
 
                 response = customProtocolRepository.execute(int(protocolNumber), requestForm)
-                print(f"response: {response}")
+                print(f"response 응답!: {response}")
 
                 #transmitMessage = converter.convertToTransmitMessage(protocolNumber, response)
                 transmitMessage = converter.convertToData(response)

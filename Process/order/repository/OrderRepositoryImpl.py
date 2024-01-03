@@ -5,6 +5,8 @@ from order.repository.OrderRepository import OrderRepository
 from mysql.MySQLDatabase import MySQLDatabase
 from sqlalchemy.exc import SQLAlchemyError
 
+from order.service.response.OrderRemoveResponse import OrderRemoveResponse
+
 
 class OrderRepositoryImpl(OrderRepository):
     __instance = None
@@ -42,11 +44,11 @@ class OrderRepositoryImpl(OrderRepository):
             print(f"DB 저장 중 에러 발생: {exception}")
             return None
 
-    def findAccountId(self, accountId):
+    def findAccountId(self, sessionId):
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
 
-        return session.query(ProductOrder).filter_by(_ProductOrder__accountId=accountId).first()
+        return session.query(ProductOrder).filter_by(_ProductOrder__accountId=sessionId).first()
 
     def findAllProductIdByAccountId(self, accountId):
         dbSession = sessionmaker(bind=self.__instance.engine)
@@ -58,3 +60,20 @@ class OrderRepositoryImpl(OrderRepository):
             productIdList.append(id.getProductId())
 
         return productIdList
+
+    def removeProductsByAccountId(self, sessionId, productId):
+        dbSession = sessionmaker(bind=self.__instance.engine)
+        session = dbSession()
+
+        products = session.query(ProductOrder).filter_by(_ProductOrder__accountId=sessionId,
+                                                         _ProductOrder__productId=productId).all()
+
+        if products:
+            for product in products:
+                session.delete(product)
+                session.commit()
+            response = OrderRemoveResponse(True, "주문 취소 완료")
+        else:
+            response = OrderRemoveResponse(False, "주문을 취소할 수 없습니다.")
+
+        return response
