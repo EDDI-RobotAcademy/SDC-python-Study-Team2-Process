@@ -11,6 +11,9 @@ class AccountRegisterRequest:
     def toAccount(self):
         return Account(self.__accountId, self.__password)
 
+    def getAccountId(self):
+        return self.__accountId
+
     def __init__(self, accountId=None, password=None, **kwargs):
         if accountId is not None and password is not None:
             self.__accountId = accountId
@@ -18,6 +21,7 @@ class AccountRegisterRequest:
         elif "__accountId" in kwargs and "__password" in kwargs:
             self.__accountId = kwargs["__accountId"]
             self.__password = kwargs["__password"]
+
 
     @classmethod
     def createFromTuple(cls, inputTuple):
