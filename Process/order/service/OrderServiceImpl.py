@@ -60,7 +60,7 @@ class OrderServiceImpl(OrderService):
         print(f"주문 내역 요청 잘 들어 왔니?: {request}")
 
         sessionId = request.getSessionId()
-        print(f"sessionId: {sessionId}")
+        print(f"주문 요청 sessionId: {sessionId}")
 
         productIdList = self.repository.findAllProductIdByAccountId(sessionId)
         print(f"productIdList:{productIdList}")

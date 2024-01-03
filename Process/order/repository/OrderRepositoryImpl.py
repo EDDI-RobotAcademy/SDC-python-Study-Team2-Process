@@ -44,12 +44,6 @@ class OrderRepositoryImpl(OrderRepository):
             print(f"DB 저장 중 에러 발생: {exception}")
             return None
 
-    def findAccountId(self, sessionId):
-        dbSession = sessionmaker(bind=self.__instance.engine)
-        session = dbSession()
-
-        return session.query(ProductOrder).filter_by(_ProductOrder__accountId=sessionId).first()
-
     def findAllProductIdByAccountId(self, accountId):
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
