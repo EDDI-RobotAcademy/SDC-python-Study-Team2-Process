@@ -66,6 +66,7 @@ class AccountServiceImpl(AccountService):
         # print(f"cleanedElements: {cleanedElements}")
         #
         # accountLoginRequest = AccountLoginRequest(*cleanedElements)
+        print(f"accountLoginRequest id: {accountLoginRequest.getAccountId()}")
         foundAccount = self.__accountRepository.findByAccountId(accountLoginRequest.getAccountId())
         print(f"foundAccount: {foundAccount}")
         if foundAccount is None:
