@@ -60,7 +60,7 @@ class OrderServiceImpl(OrderService):
         print(f"주문 내역 요청 잘 들어 왔니?: {request}")
 
         sessionId = request.getSessionId()
-        print(f"sessionId: {sessionId}")
+        print(f"주문 요청 sessionId: {sessionId}")
 
         productIdList = self.repository.findAllProductIdByAccountId(sessionId)
         print(f"productIdList:{productIdList}")
@@ -73,4 +73,20 @@ class OrderServiceImpl(OrderService):
         print(f"response: {response}")
         return response
 
+    def orderRemove(self, *args, **kwqrgs):
+
+        request = args[0]
+        print(f"주문 취소 요청 잘 들어 왔니?: {request}")
+
+        sessionId = request.getSessionId()
+        print(f"주문 취소 sessionId: {sessionId}")
+
+        productId = request.getProductId()
+
+        print(f"주문 삭제 요청 잘 들어옴?: {request}")
+
+        response = self.repository.removeProductsByAccountId(sessionId, productId)
+        print(f"주문 취소 잘 됨?:{response}")
+
+        return response
 

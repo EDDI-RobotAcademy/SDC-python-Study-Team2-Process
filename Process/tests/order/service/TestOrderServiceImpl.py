@@ -8,6 +8,7 @@ from order.repository.OrderRepositoryImpl import OrderRepositoryImpl
 from order.entity.Order import ProductOrder
 from order.service.OrderServiceImpl import OrderServiceImpl
 from order.service.request.OrderListRequest import OrderListRequest
+from order.service.request.OrderRemoveRequest import OrderRemoveRequest
 from product.repository.ProductRepositoryImpl import ProductRepositoryImpl
 from product.service.ProductServiceImpl import ProductServiceImpl
 from product.service.request.ProductRequestFind import ProductRequestFind
@@ -64,3 +65,14 @@ class TestProductRepository(unittest.TestCase):
 
        # productInfo = self.productService.findById()
        # print(f"뭐가 출력이 되는 거지?: {productInfo}")
+
+
+    def testOrderDelete(self):
+        repository = OrderRepositoryImpl.getInstance()
+        request = OrderRemoveRequest(12, 5)
+        sessionId = request.getSessionId()
+        productId = request.getProductId()
+        print(f"test 주문 삭제 요청 잘 들어옴?: {request}")
+
+        response = repository.removeProductsByAccountId(sessionId, productId)
+        print(f"test 주문 취소 잘 됨?:{response}")

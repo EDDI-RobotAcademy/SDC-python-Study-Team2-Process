@@ -106,6 +106,10 @@ def initCustomProtocol():
         CustomProtocol.ORDER_LIST.value,
         orderService.orderList
     )
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.ORDER_DELETE.value,
+        orderService.orderRemove
+    )
 
 
 def initEachDomain():

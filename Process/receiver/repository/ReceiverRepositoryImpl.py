@@ -89,7 +89,7 @@ class ReceiverRepositoryImpl(ReceiverRepository):
                 #             cleanedElementList.append(cleanedElement)
 
                 response = customProtocolRepository.execute(int(protocolNumber), requestForm)
-                print(f"response: {response}")
+                print(f"response 응답!: {response}")
 
                 if type(response) == AccountLoginResponse:
                     print("SocketSessionRepository: 호출 완료")
