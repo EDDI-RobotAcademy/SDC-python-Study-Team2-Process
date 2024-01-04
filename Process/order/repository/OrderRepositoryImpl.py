@@ -51,12 +51,14 @@ class OrderRepositoryImpl(OrderRepository):
 
         return productIdList
 
-    def removeProductsByAccountId(self, sessionId, productId):
+    def removeProductsByAccountId(self, sessionId):#, productId):
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
 
-        products = session.query(ProductOrder).filter_by(_ProductOrder__accountId=sessionId,
-                                                         _ProductOrder__productId=productId).all()
+        products = session.query(ProductOrder).filter_by(_ProductOrder__accountId=sessionId).all()
+
+        # products = session.query(ProductOrder).filter_by(_ProductOrder__accountId=sessionId,
+        #                                                  _ProductOrder__productId=productId).all()
 
         if products:
             for product in products:

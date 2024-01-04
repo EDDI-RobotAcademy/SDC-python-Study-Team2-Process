@@ -65,7 +65,7 @@ class OrderServiceImpl(OrderService):
         response = []
         for productId in productIdList:
             data = ProductServiceImpl.getInstance().productInfo(ProductRequestFind(productId))
-            response.append(OrderListResponse(data.getId(), data.getName(), data.getPrice()))
+            response.append(OrderListResponse( data.getName(), data.getPrice()))
 
         print(f"response: {response}")
         return response
@@ -79,11 +79,12 @@ class OrderServiceImpl(OrderService):
         sessionId = request.getSessionId()
         print(f"주문 취소 sessionId: {sessionId}")
 
-        productId = request.getProductId()
+        # productId = request.getProductId()
 
         print(f"주문 삭제 요청 잘 들어옴?: {request}")
 
-        response = self.repository.removeProductsByAccountId(sessionId, productId)
+        # response = self.repository.removeProductsByAccountId(sessionId, productId)
+        response = self.repository.removeProductsByAccountId(sessionId)
         print(f"주문 취소 잘 됨?:{response}")
 
         return response
