@@ -19,8 +19,8 @@ class ConvertToTransmitMessage:
         result = None
         if (type(arg[0]) == list):
             result = []
-            for data in arg[0]:
-                result.append(dict(data))
+            for responseList in arg[0]:
+                result.append(dict(responseList))
 
             # result = {"list": arr}
         else:
