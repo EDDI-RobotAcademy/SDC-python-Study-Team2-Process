@@ -39,8 +39,8 @@ class TestProductRepository(unittest.TestCase):
     def testSaveOrderInfo(self):
         repository = OrderRepositoryImpl.getInstance()
         order_data = {
-            "accountId": 14,
-            "productId": 9
+            "accountId": 12,
+            "productId":11
         }
         order = ProductOrder(**order_data)
 
