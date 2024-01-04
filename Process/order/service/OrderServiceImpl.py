@@ -23,10 +23,7 @@ class OrderServiceImpl(OrderService):
             cls.__instance.productService = ProductServiceImpl.getInstance()
         return cls.__instance
 
-    def __init__(self):
-        print("TaskManageRepository 생성자 호출")
-        self.__receiverTask = None
-        self.__transmitterTask = None
+
 
     @classmethod
     def getInstance(cls):
