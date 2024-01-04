@@ -37,9 +37,9 @@ class TransmitterRepositoryImpl(TransmitterRepository):
                         clientSocket.close()
                         break
                     else:
-                        responseStr = str(response)
+                        #responseStr = str(response)
                         print(f"응답할 내용: {response}")
-                        clientSocket.sendall(responseStr.encode())
+                        clientSocket.sendall(response.encode())
 
 
             except (socket.error, BrokenPipeError) as exception:
