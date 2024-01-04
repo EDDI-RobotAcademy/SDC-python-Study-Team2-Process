@@ -8,31 +8,31 @@ Base = declarative_base()
 class Product(Base):
     __tablename__ = 'product'
 
-    __id: int = Column(Integer, primary_key=True, autoincrement=True, name="id")
-    __name: str = Column(String, name="name")
-    __price: int = Column(Integer, name="price")
-    __info: str = Column(String, name="info")
+    __productId: int = Column(Integer, primary_key=True, autoincrement=True, name="id")
+    __productName: str = Column(String, name="name")
+    __productPrice: int = Column(Integer, name="price")
+    __productInfo: str = Column(String, name="info")
 
     def __init__(self, name: str, price: int, info: str):
-        self.__name = name
-        self.__price = price
-        self.__info = info
+        self.__productName = name
+        self.__productPrice = price
+        self.__productInfo = info
 
     def getId(self):
-        return self.__id
+        return self.__productId
 
     def getName(self):
-        return self.__name
+        return self.__productName
 
     def getPrice(self):
-        return self.__price
+        return self.__productPrice
 
     def getInfo(self):
-        return self.__info
+        return self.__productInfo
 
     def editProduct(self, _newName: str, _newPrice: int, _newInfo: str) -> object:
-        self.__name = _newName
-        self.__price = _newPrice
-        self.__info = _newInfo
+        self.__productName = _newName
+        self.__productPrice = _newPrice
+        self.__productInfo = _newInfo
 
 

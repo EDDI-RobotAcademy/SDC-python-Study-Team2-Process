@@ -69,7 +69,7 @@ class ProductRepositoryImpl(ProductRepository):
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
 
-        info = session.query(Product).filter_by(_Product__id=id).first()
+        info = session.query(Product).filter_by(_Product__productId=id).first()
         response = ProductResponseInfo(info.getId(), info.getName(), info.getPrice(), info.getInfo())
         return response
 

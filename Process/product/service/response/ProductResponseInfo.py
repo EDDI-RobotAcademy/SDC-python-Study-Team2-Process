@@ -22,7 +22,7 @@ class ProductResponseInfo:
         yield "__productInfo", self.__productInfo
 
     def getName(self):
-        return self.__name
+        return self.__productName
 
     def getPrice(self):
-        return self.__price
+        return self.__productPrice
