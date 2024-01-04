@@ -16,11 +16,12 @@ class ConvertToTransmitMessage:
         print("ConvertToTransmitMessage 생성자 호출")
 
     def convertToData(self, *arg):
+        print(f"convertToData: {arg[0]}")
         result = None
         if (type(arg[0]) == list):
             result = []
-            for data in arg[0]:
-                result.append(dict(data))
+            for responseList in arg[0]:
+                result.append(dict(responseList))
 
             # result = {"list": arr}
         else:
@@ -32,7 +33,6 @@ class ConvertToTransmitMessage:
                 print(e)
         print(f"data is: {result}")
         print(f"data str: {str(result)}")
-        print(f"data is: {result.__str__}")
         return str(result)
         # return json.dumps(result)
 

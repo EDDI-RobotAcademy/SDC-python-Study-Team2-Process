@@ -109,15 +109,15 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
     def generateProductRequestFind(self, arguments):
         print("ProductRequestFind 생성")
         return ProductRequestFind(
-            arguments["id"]
+            arguments["__productId"]
         )
 
     def generateProductRequestAdd(self, arguments):
         print("ProductRequestAdd 생성")
         return ProductRequestAdd(
-                arguments["name"],
-                arguments["price"],
-                arguments["info"]
+                arguments["__productName"],
+                arguments["__productPrice"],
+                arguments["__productInfo"]
         # arg = list(dict(arguments).values())
         # print(f"arguments: {arg}")
         # return ProductRequestAdd(
@@ -129,16 +129,16 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
     def generateProductRequestEdit(self, arguments):
         print("ProductRequestEdit 생성")
         return ProductRequestEdit(
-            arguments["id"],
-            arguments["name"],
-            arguments["price"],
-            arguments["info"]
+            arguments["__productId"],
+            arguments["__productName"],
+            arguments["__productPrice"],
+            arguments["__productInfo"]
         )
 
     def generateProductRequestRemove(self, arguments):
         print("ProductRequestRemove 생성")
         return ProductRequestRemove(
-            arguments["id"]
+            arguments["__productId"]
         )
 
     def generateProductRequestList(self, arguments):
@@ -150,21 +150,21 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         print("ProductOrder 생성")
         print(f"arguments: {arguments}")
         return OrderInfoRegisterRequest(
-            arguments["sessionId"],
-            arguments["productId"]
+            arguments["__accountSessionId"],
+            arguments["__productId"]
         )
 
     def generateOrderListRequest(self, arguments):
         print("OrderListRequest 생성")
         print(f"arguments: {arguments}")
         return OrderListRequest(
-            arguments["sessionId"]
+            arguments["__accountSessionId"]
         )
 
     def generateOrderRemoveRequest(self, arguments):
         print("OrderRemoveRequest 생성")
         print(f"arguments: {arguments}")
         return OrderRemoveRequest(
-            arguments["sessionId"],
-            arguments["productId"]
+            arguments["__accountSessionId"],
+            arguments["__productId"]
         )

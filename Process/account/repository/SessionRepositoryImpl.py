@@ -37,11 +37,8 @@ class SessionRepositoryImpl(SessionRepository):
         session = dbSession()
 
         try:
-            print("1")
             session.add(accountSession)
-            print("2")
             session.commit()
-            print("3")
 
             print(f"accountSession - id: {accountSession.getSessionId()}")
             return accountSession
@@ -67,9 +64,7 @@ class SessionRepositoryImpl(SessionRepository):
         print("deleteBySessionId 호출: {sessionId}")
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
-        print(1)
         accountSession = session.query(Account_Session).filter_by(_Account_Session__sessionId=sessionId).first()
-        print(2)
         if accountSession:
             session.delete(accountSession)
             session.commit()
