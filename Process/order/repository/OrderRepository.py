@@ -12,5 +12,5 @@ class OrderRepository(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def removeProductsByAccountId(self, sessionId, productId):
+    def removeProductsByAccountId(self, sessionId):#, productId):
         pass

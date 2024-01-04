@@ -166,5 +166,5 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         print(f"arguments: {arguments}")
         return OrderRemoveRequest(
             arguments["__accountSessionId"],
-            arguments["__productId"]
+      #      arguments["__productId"]
         )

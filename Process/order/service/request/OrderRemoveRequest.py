@@ -4,14 +4,14 @@ from dataclasses import dataclass
 @dataclass
 class OrderRemoveRequest:
     __sessionId: int
-    __productId: int
+    # __productId: int
 
-    def __init__(self, sessionId: int, productId: int):
+    def __init__(self, sessionId: int):#, productId: int):
         self.__sessionId = sessionId
-        self.__productId = productId
+        #self.__productId = productId
 
     def getSessionId(self):
         return self.__sessionId
 
-    def getProductId(self):
-        return self.__productId
+    # def getProductId(self):
+    #     return self.__productId
