@@ -30,7 +30,7 @@ class Product(Base):
     def getInfo(self):
         return self.__info
 
-    def editProduct(self, _newName: str, _newPrice: int, _newInfo: str):
+    def editProduct(self, _newName: str, _newPrice: int, _newInfo: str) -> object:
         self.__name = _newName
         self.__price = _newPrice
         self.__info = _newInfo

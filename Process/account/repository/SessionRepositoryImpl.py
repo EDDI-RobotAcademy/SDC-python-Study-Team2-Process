@@ -19,8 +19,6 @@ class SessionRepositoryImpl(SessionRepository):
 
     def __init__(self):
         print("SessionRepositoryImpl 생성자 호출")
-        self.__receiverTask = None
-        self.__transmitterTask = None
         atexit.register(self.resetDB)
 
     @classmethod

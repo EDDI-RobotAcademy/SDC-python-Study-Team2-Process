@@ -21,13 +21,11 @@ class AccountServiceImpl(AccountService):
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
             cls.__instance.repository = repository
+            cls.__instance.__accountRepository = AccountRepositoryImpl.getInstance()
+            cls.__instance.__sessionRepository = SessionRepositoryImpl.getInstance()
 
         return cls.__instance
 
-    def __init__(self, repository):
-        print("TaskManageServiceImpl 생성자 호출")
-        self.__accountRepository = AccountRepositoryImpl()
-        self.__sessionRepository = SessionRepositoryImpl()
 
     @classmethod
     def getInstance(cls, repository=None):
