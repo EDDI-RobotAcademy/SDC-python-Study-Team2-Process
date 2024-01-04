@@ -11,5 +11,5 @@ class AccountDeleteResponse:
         self.__message = message
 
     def __iter__(self):
-        yield "isSuccess", self.__isSuccess
-        yield "message", self.__message
+        yield "__success", self.__isSuccess
+        yield "__message", self.__message

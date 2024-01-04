@@ -11,8 +11,8 @@ class AccountLoginResponse:
         self.__message = message
 
     def __iter__(self):
-        yield "sessionAccountId", self.__sessionAccountId
-        yield "message", self.__message
+        yield "__sessionAccountId", self.__sessionAccountId
+        yield "__message", self.__message
 
     def getSessionAccountId(self):
         return self.__sessionAccountId
