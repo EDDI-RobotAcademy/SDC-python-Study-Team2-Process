@@ -65,7 +65,7 @@ class OrderServiceImpl(OrderService):
         response = []
         for productId in productIdList:
             data = ProductServiceImpl.getInstance().productInfo(ProductRequestFind(productId))
-            response.append(OrderListResponse(data.getId(), data.getName(), data.getPrice()))
+            response.append(OrderListResponse(data.getName(), data.getPrice()))
 
         print(f"response: {response}")
         return response
