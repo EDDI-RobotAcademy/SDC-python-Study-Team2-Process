@@ -15,11 +15,11 @@ class ProductResponseAboutSuccess:
 
     def __dict__(self):
         return {
-            "success": self.__success,
-            "message": self.__message
+            "__success": self.__success,
+            "__message": self.__message
         }
 
     def __iter__(self):
         # 객체를 iterable로 만들기 위해 __iter__ 메서드를 정의
-        yield "success", self.__success
-        yield "message", self.__message
+        yield "__success", self.__success
+        yield "__message", self.__message

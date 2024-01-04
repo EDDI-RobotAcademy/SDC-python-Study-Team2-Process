@@ -31,9 +31,11 @@ class TransmitterRepositoryImpl(TransmitterRepository):
                 print(f"transmitter socket: {clientSocket}")
                 print("transmitter: 응답 준비")
                 response = self.__transmitQueue.get()
+                print(f"transmitter Queue: {self.__transmitQueue.empty()}")
                 if response is not None:
                     if response == 0:
                         print("transmitter: 종료~~~")
+
                         clientSocket.close()
                         break
                     else:

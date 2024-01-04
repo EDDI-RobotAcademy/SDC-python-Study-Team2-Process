@@ -41,7 +41,7 @@ class ReceiverRepositoryImpl(ReceiverRepository):
         requestGeneratorService = RequestGeneratorServiceImpl.getInstance()
 
         converter = ConvertToTransmitMessage.getInstance()
-
+        response = None
         while True:
             try:
                 receivedRequest = clientSocket.recv(2048)
@@ -57,6 +57,7 @@ class ReceiverRepositoryImpl(ReceiverRepository):
                     clientSocket.close()
                     break
                 receivedForm = json.loads(receivedRequest)
+                print(f"receivedForm 수신된 내용: {receivedForm}")
 
                 protocolNumber = receivedForm["protocol"]
 
@@ -101,10 +102,16 @@ class ReceiverRepositoryImpl(ReceiverRepository):
                 transmitQueue.put(transmitMessage)
             except Exception as e:
                  print(f"ReceiverRepositoryImpl error: {e}")
-
+                 response = {"success": False, "message": "서버 에러! 잠시 후 다시 시작 해 주세요!"}
+                 transmitMessage = converter.convertToData(response)
+                 transmitQueue.put(transmitMessage)
             except socket.error as exception:
                 print(f"socket error: {exception}")
                 if exception.errno == errno.EWOULDBLOCK:
+                    response = {"success": False, "message": "서버 에러! 잠시 후 다시 시작 해 주세요!"}
                     clientSocket.closeSocket()
+                    transmitMessage = converter.convertToData(response)
+                    transmitQueue.put(transmitMessage)
             finally:
+
                 sleep(0.5)
