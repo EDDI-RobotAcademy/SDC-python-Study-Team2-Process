@@ -49,22 +49,15 @@ class TestProductRepository(unittest.TestCase):
 
         sessionId = request.getSessionId()
         print(f"sessionId: {sessionId}")
-      #  accountId = OrderRepositoryImpl.getInstance().findAccountId(sessionId)
-        # order db에서 accountId로 productId를 받는 걸 추가
-
-        #print(f"accountId들 전부 잘 가져 왔니?: {accountId}")
 
         result = repository.findAllProductIdByAccountId(sessionId)
-        print(result)
+        print(f"result: {result}")
         response = []
         for productId in result:
 
             response.append(ProductServiceImpl.getInstance().productInfo(ProductRequestFind(productId)))
 
         print(f"response: {response}")
-
-       # productInfo = self.productService.findById()
-       # print(f"뭐가 출력이 되는 거지?: {productInfo}")
 
 
     def testOrderDelete(self):

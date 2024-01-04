@@ -63,15 +63,16 @@ class OrderServiceImpl(OrderService):
         print(f"주문 요청 sessionId: {sessionId}")
 
         productIdList = self.repository.findAllProductIdByAccountId(sessionId)
-        print(f"productIdList:{productIdList}")
+        print(f"상품 아이디 잘 가져왔니? productIdList:{productIdList}")
 
         response = []
         for productId in productIdList:
             data = ProductServiceImpl.getInstance().productInfo(ProductRequestFind(productId))
-            response.append(OrderListResponse(data.getName(), data.getPrice()))
+            response.append(OrderListResponse(data.getId(), data.getName(), data.getPrice()))
 
         print(f"response: {response}")
         return response
+
 
     def orderRemove(self, *args, **kwqrgs):
 
