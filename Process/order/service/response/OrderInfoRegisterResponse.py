@@ -14,8 +14,8 @@ class OrderInfoRegisterResponse:
 
     def __dict__(self):
         return {
-            "success": self.__success,
-            "message": self.__message
+            "__success": self.__success,
+            "__message": self.__message
         }
 
     def __iter__(self):

@@ -18,11 +18,6 @@ class ProductResponseList:
         yield "__productName", self.__productName
         yield "__productPrice", self.__productPrice
 
-    def __dict__(self):
-        return {
-            "id": self.__id,
-            "name": self.__name,
-            "price": self.__price
-        }
+
 
 
