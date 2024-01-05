@@ -59,13 +59,15 @@ class SessionRepositoryImpl(SessionRepository):
         return session.query(Account_Session).filter_by(_Account_Session__sessionId=sessionId).first()
 
     def deleteBySessionId(self, sessionId):
-        print("deleteBySessionId 호출: {sessionId}")
+        print(f"deleteBySessionId 호출: {sessionId}")
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
         accountSession = session.query(Account_Session).filter_by(_Account_Session__sessionId=sessionId).first()
         if accountSession:
             session.delete(accountSession)
             session.commit()
+            return True
+        return False
 
     def resetDB(self):
 

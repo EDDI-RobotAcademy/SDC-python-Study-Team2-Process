@@ -24,9 +24,9 @@ class TestReceiveRepository(unittest.TestCase):
 
         receivedForm = {
 
-           "protocol": 11,
+           "protocol": 0,
            "data": {
-               "sessionId" : 12
+               "__accountSessionId" : 12
            }
 
         }

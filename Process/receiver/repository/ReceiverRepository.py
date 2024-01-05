@@ -6,3 +6,6 @@ class ReceiverRepository(abc.ABC):
     def receiveCommand(self, clientSocketObject):
         pass
 
+    @abc.abstractmethod
+    def closeSockets(self, clientSocket, transmitQueue):
+        pass
