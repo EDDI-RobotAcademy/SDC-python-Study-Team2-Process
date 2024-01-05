@@ -8,6 +8,7 @@ from transmitter.repository.TransmitterRepository import TransmitterRepository
 
 class TransmitterRepositoryImpl(TransmitterRepository):
     __instance = None
+    __lengthHeaderSize = 8
     __transmitQueue = multiprocessing.Queue()
 
     def __new__(cls):
@@ -41,6 +42,7 @@ class TransmitterRepositoryImpl(TransmitterRepository):
                     else:
                         #responseStr = str(response)
                         print(f"응답할 내용: {response}")
+                        response = f"{len(response):<{self.__lengthHeaderSize}}" + response
                         clientSocket.sendall(response.encode())
 
 
