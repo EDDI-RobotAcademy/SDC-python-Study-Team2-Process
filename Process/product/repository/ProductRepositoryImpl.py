@@ -2,6 +2,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import sessionmaker
 
 from mysql.MySQLDatabase import MySQLDatabase
+from order.repository.OrderRepositoryImpl import OrderRepositoryImpl
 from product.entity.Product import Product
 from product.repository.ProductRepository import ProductRepository
 from product.service.request.ProductRequestEdit import ProductRequestEdit
@@ -19,6 +20,7 @@ class ProductRepositoryImpl(ProductRepository):
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
             cls.__instance.engine = MySQLDatabase.getInstance().getMySQLEngine()
+            cls.__instance.orderRepository = OrderRepositoryImpl.getInstance()
         return cls.__instance
 
 
@@ -104,3 +106,17 @@ class ProductRepositoryImpl(ProductRepository):
 
         return list
 
+    def removeProductAllBySessionId(self, sessionId):
+
+        dbSession = sessionmaker(bind=ProductRepositoryImpl.getInstance().engine)
+        session = dbSession()
+
+        productIdList = self.orderRepository.findAllProductIdByAccountId(sessionId)
+        print(f"상품 아이디 리스트:{productIdList}")
+
+        for product in productIdList:
+            data = session.query(Product).filter_by(_Product__productId=product).first()
+            print(f"뭔데 넌: {data}")
+            session.delete(data)
+        session.commit()
+        return True

@@ -13,6 +13,7 @@ from account.service.response.AccountLoginResponse import AccountLoginResponse
 from account.service.response.AccountLogoutResponse import AccountLogoutResponse
 from account.service.response.AccountRegisterResponse import AccountRegisterResponse
 from order.repository.OrderRepositoryImpl import OrderRepositoryImpl
+from product.repository.ProductRepositoryImpl import ProductRepositoryImpl
 
 
 class AccountServiceImpl(AccountService):
@@ -25,6 +26,7 @@ class AccountServiceImpl(AccountService):
             cls.__instance.__accountRepository = AccountRepositoryImpl.getInstance()
             cls.__instance.__sessionRepository = SessionRepositoryImpl.getInstance()
             cls.__instance.__orderRepository = OrderRepositoryImpl.getInstance()
+            cls.__instance.__productRepository = ProductRepositoryImpl.getInstance()
 
         return cls.__instance
 
@@ -114,6 +116,7 @@ class AccountServiceImpl(AccountService):
         self.__orderRepository.removeOrderInfoByAccountId(foundAccount.getId())
         self.__sessionRepository.deleteBySessionId(foundAccount.getId())
         self.__accountRepository.deleteById(foundAccount.getId())
+        self.__productRepository.removeProductAllBySessionId(foundAccount.getId())
 
 
         return AccountDeleteResponse(True)
