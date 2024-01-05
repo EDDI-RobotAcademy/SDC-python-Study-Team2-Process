@@ -12,6 +12,7 @@ from account.service.response.AccountDeleteResponse import AccountDeleteResponse
 from account.service.response.AccountLoginResponse import AccountLoginResponse
 from account.service.response.AccountLogoutResponse import AccountLogoutResponse
 from account.service.response.AccountRegisterResponse import AccountRegisterResponse
+from order.repository.OrderRepositoryImpl import OrderRepositoryImpl
 
 
 class AccountServiceImpl(AccountService):
@@ -23,6 +24,7 @@ class AccountServiceImpl(AccountService):
             cls.__instance.repository = repository
             cls.__instance.__accountRepository = AccountRepositoryImpl.getInstance()
             cls.__instance.__sessionRepository = SessionRepositoryImpl.getInstance()
+            cls.__instance.__orderRepository = OrderRepositoryImpl.getInstance()
 
         return cls.__instance
 
@@ -79,7 +81,7 @@ class AccountServiceImpl(AccountService):
             self.__sessionRepository.save(accountSession)
 
             return AccountLoginResponse(foundAccount.getId())
-        return AccountLoginResponse(-1, "아이디와 비밀번호를 확인 해 주세요.")
+        return AccountLoginResponse(-1, "아이디와 비밀번호를 확인해 주세요.")
 
     def logoutAccount(self, *args, **kwargs):
         print("AccountService - logoutAccount()")
@@ -109,8 +111,10 @@ class AccountServiceImpl(AccountService):
         if foundAccount is None:
             return AccountDeleteResponse(False, "유효하지 않은 계정입니다.")
 
+        self.__orderRepository.removeOrderInfoByAccountId(foundAccount.getId())
         self.__sessionRepository.deleteBySessionId(foundAccount.getId())
         self.__accountRepository.deleteById(foundAccount.getId())
+
 
         return AccountDeleteResponse(True)
 
