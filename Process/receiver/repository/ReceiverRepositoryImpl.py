@@ -110,13 +110,13 @@ class ReceiverRepositoryImpl(ReceiverRepository):
                     break
             except Exception as e:
                  print(f"ReceiverRepositoryImpl error: {e}")
-                 response = {"success": False, "message": "서버 에러! 잠시 후 다시 시작 해 주세요!"}
+                 response = {"__success": False, "__message": "서버 에러! 잠시 후 다시 시작 해 주세요!"}
                  transmitMessage = converter.convertToData(response)
                  transmitQueue.put(transmitMessage)
             except socket.error as exception:
                 print(f"socket error: {exception}")
                 if exception.errno == errno.EWOULDBLOCK:
-                    response = {"success": False, "message": "서버 에러! 잠시 후 다시 시작 해 주세요!"}
+                    response = {"__success": False, "__message": "서버 에러! 잠시 후 다시 시작 해 주세요!"}
                     clientSocket.closeSocket()
                     transmitMessage = converter.convertToData(response)
                     transmitQueue.put(transmitMessage)

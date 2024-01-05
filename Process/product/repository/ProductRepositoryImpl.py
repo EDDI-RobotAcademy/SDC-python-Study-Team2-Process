@@ -70,7 +70,10 @@ class ProductRepositoryImpl(ProductRepository):
         session = dbSession()
 
         info = session.query(Product).filter_by(_Product__productId=id).first()
-        response = ProductResponseInfo(info.getId(), info.getName(), info.getPrice(), info.getInfo())
+        if info:
+            response = ProductResponseInfo(info.getId(), info.getName(), info.getPrice(), info.getInfo())
+        else:
+            response = ProductResponseAboutSuccess(False, "상품 번호를 확인 해 주세요")
         return response
 
     def edit(self, request: ProductRequestEdit):
