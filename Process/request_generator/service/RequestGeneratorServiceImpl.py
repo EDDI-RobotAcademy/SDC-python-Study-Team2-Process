@@ -4,6 +4,7 @@ from account.service.request.AccountDeleteRequest import AccountDeleteRequest
 from account.service.request.AccountLoginRequest import AccountLoginRequest
 from account.service.request.AccountLogoutRequest import AccountLogoutRequest
 from account.service.request.AccountRegisterRequest import AccountRegisterRequest
+from application.service.request.ApplicationRequestQuit import ApplicationRequestQuit
 from custom_protocol.entity.CustomProtocol import CustomProtocol
 from order.service.request.OrderInfoRegisterRequest import OrderInfoRegisterRequest
 from order.service.request.OrderListRequest import OrderListRequest
@@ -23,6 +24,9 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
     def __new__(cls):
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
+
+            cls.__requestFormGenerationTable[
+                CustomProtocol.QUIT.value] = cls.__instance.generateApplicationQuit
 
             cls.__requestFormGenerationTable[
                 CustomProtocol.ACCOUNT_LOGIN.value] = cls.__instance.generateAccountLoginRequest
@@ -167,4 +171,11 @@ class RequestGeneratorServiceImpl(RequestGeneratorService):
         return OrderRemoveRequest(
             arguments["__accountSessionId"],
       #      arguments["__productId"]
+        )
+
+    def generateApplicationQuit(self, arguments):
+        print("ApplicationQuitRequest 생성")
+        print(f"arguments: {arguments}")
+        return ApplicationRequestQuit(
+            arguments["__accountSessionId"]
         )

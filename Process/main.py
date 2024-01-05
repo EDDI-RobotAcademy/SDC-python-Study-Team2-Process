@@ -6,6 +6,7 @@ from time import sleep
 import sqlalchemy
 
 from account.service.AccountServiceImpl import AccountServiceImpl
+from application.service.ApplicationServiceImpl import ApplicationServiceImpl
 from custom_protocol.entity.CustomProtocol import CustomProtocol
 from custom_protocol.service.CustomProtocolServiceImpl import CustomProtocolServiceImpl
 from mysql.MySQLDatabase import MySQLDatabase
@@ -58,6 +59,12 @@ def initCustomProtocol():
     accountService = AccountServiceImpl.getInstance()
     productService = ProductServiceImpl.getInstance()
     orderService = OrderServiceImpl.getInstance()
+    applicationService = ApplicationServiceImpl.getInstance()
+
+    customProtocolService.registerCustomProtocol(
+        CustomProtocol.QUIT.value,
+        applicationService.applicationQuit
+    )
 
     customProtocolService.registerCustomProtocol(
         CustomProtocol.ACCOUNT_REGISTER.value,

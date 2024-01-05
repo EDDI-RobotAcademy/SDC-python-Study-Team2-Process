@@ -75,6 +75,7 @@ class AccountRepositoryImpl(AccountRepository):
             session.delete(account)
             session.commit()
 
+
     def deleteById(self, id):
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
@@ -85,6 +86,8 @@ class AccountRepositoryImpl(AccountRepository):
         if account:
             session.delete(account)
             session.commit()
+            return True
+        return False
 
     def getBoolWithFindByAccountId(self, accountId):
         if self.findByAccountId(accountId) is not None:
