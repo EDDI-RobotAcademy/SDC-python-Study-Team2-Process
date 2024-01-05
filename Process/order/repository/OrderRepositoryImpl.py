@@ -69,3 +69,19 @@ class OrderRepositoryImpl(OrderRepository):
             response = OrderRemoveResponse(False, "주문을 취소할 수 없습니다.")
 
         return response
+
+    def removeOrderInfoByAccountId(self, sessionId):
+        dbSession = sessionmaker(bind=self.__instance.engine)
+        session = dbSession()
+
+        products = session.query(ProductOrder).filter_by(_ProductOrder__accountId=sessionId).all()
+        print(f"products에 무슨 정보가 들었니?: {products}")
+
+        if products:
+            for product in products:
+                session.delete(product)
+            session.commit()
+            return True
+
+        return False
+
