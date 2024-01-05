@@ -2,6 +2,7 @@ from account.repository.AccountRepositoryImpl import AccountRepositoryImpl
 from account.repository.SessionRepositoryImpl import SessionRepositoryImpl
 from account.service.response.AccountLogoutResponse import AccountLogoutResponse
 from application.service.ApplicationService import ApplicationService
+from application.service.response.ApplicationResponseQuit import ApplicationResponseQuit
 from mysql.MySQLDatabase import MySQLDatabase
 
 
@@ -36,4 +37,4 @@ class ApplicationServiceImpl(ApplicationService):
             print(f"exception: {e}")
 
         finally:
-            return AccountLogoutResponse(True, message)
+            return ApplicationResponseQuit()

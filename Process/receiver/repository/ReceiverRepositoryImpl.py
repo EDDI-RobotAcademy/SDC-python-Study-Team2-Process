@@ -5,6 +5,7 @@ from time import sleep
 
 from account.repository.SessionRepositoryImpl import SessionRepositoryImpl
 from account.service.response.AccountLoginResponse import AccountLoginResponse
+from application.service.response.ApplicationResponseQuit import ApplicationResponseQuit
 from custom_protocol.repository.CustomProtocolRepositoryImpl import CustomProtocolRepositoryImpl
 from receiver.repository.ReceiverRepository import ReceiverRepository
 from request_generator.service.RequestGeneratorServiceImpl import RequestGeneratorServiceImpl
@@ -48,13 +49,14 @@ class ReceiverRepositoryImpl(ReceiverRepository):
                 if not receivedRequest:
                     print("ReceiverRepositoryImpl: 소켓종료")
                     # transmitter에게 접속이 종료되었다고 알려야합니다.
-                    transmitQueue.put(0)
-                    if clientSocket in SocketSessionRepository.getSocketSession():
-
-                        SessionRepositoryImpl.getInstance().deleteBySessionId(SocketSessionRepository.getSocketSession()[clientSocket])
-                        SocketSessionRepository.deleteSocketSession(clientSocket)
-
-                    clientSocket.close()
+                    self.closeSockets(clientSocket, transmitQueue)
+                    # transmitQueue.put(0)
+                    # if clientSocket in SocketSessionRepository.getSocketSession():
+                    #
+                    #     SessionRepositoryImpl.getInstance().deleteBySessionId(SocketSessionRepository.getSocketSession()[clientSocket])
+                    #     SocketSessionRepository.deleteSocketSession(clientSocket)
+                    #
+                    # clientSocket.close()
                     break
                 receivedForm = json.loads(receivedRequest)
                 print(f"receivedForm 수신된 내용: {receivedForm}")
@@ -97,9 +99,15 @@ class ReceiverRepositoryImpl(ReceiverRepository):
                     if response.getSessionAccountId != -1:
                         SocketSessionRepository.saveSocketSession(clientSocket, response.getSessionAccountId())
 
+
+
                 #transmitMessage = converter.convertToTransmitMessage(protocolNumber, response)
                 transmitMessage = converter.convertToData(response)
                 transmitQueue.put(transmitMessage)
+
+                if type(response) == ApplicationResponseQuit:
+                    self.closeSockets(clientSocket, transmitQueue)
+                    break
             except Exception as e:
                  print(f"ReceiverRepositoryImpl error: {e}")
                  response = {"success": False, "message": "서버 에러! 잠시 후 다시 시작 해 주세요!"}
@@ -115,3 +123,12 @@ class ReceiverRepositoryImpl(ReceiverRepository):
             finally:
 
                 sleep(0.5)
+
+    def closeSockets(self, clientSocket, transmitQueue):
+        transmitQueue.put(0)
+        if clientSocket in SocketSessionRepository.getSocketSession():
+            SessionRepositoryImpl.getInstance().deleteBySessionId(
+                SocketSessionRepository.getSocketSession()[clientSocket])
+            SocketSessionRepository.deleteSocketSession(clientSocket)
+
+        clientSocket.close()
