@@ -58,8 +58,8 @@ class TestProductRepository(unittest.TestCase):
     def testSaveProduct(self):
         repository = ProductRepositoryImpl.getInstance()
         product_data = {
-            "name": "test_product",
-            "price": 10000,
+            "name": "sample3",
+            "price": 100,
             "info": "test_info"
         }
 
@@ -107,4 +107,9 @@ class TestProductRepository(unittest.TestCase):
         repository = ProductRepositoryImpl.getInstance()
         request = ProductRequestEdit(20, "newName", 777, "newInfo")
         result = repository.edit(request)
+        self.assertTrue(result)
+
+    def testRemoveProductAllBySessionId(self):
+        repository = ProductRepositoryImpl.getInstance()
+        result = repository.removeProductAllBySessionId(3)
         self.assertTrue(result)
