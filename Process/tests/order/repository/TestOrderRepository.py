@@ -39,8 +39,8 @@ class TestProductRepository(unittest.TestCase):
     def testSaveOrderInfo(self):
         repository = OrderRepositoryImpl.getInstance()
         order_data = {
-            "accountId": 14,
-            "productId": 13
+            "accountId": 3,
+            "productId": 5
         }
         order = ProductOrder(**order_data)
 
@@ -61,5 +61,5 @@ class TestProductRepository(unittest.TestCase):
 
     def testdeleteOrderInfo(self):
         repository = OrderRepositoryImpl.getInstance()
-        result = repository.removeOrderInfoByAccountId(14)
+        result = repository.removeOrderInfoByAccountId(3)
         self.assertTrue(result)

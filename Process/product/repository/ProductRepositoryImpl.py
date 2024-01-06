@@ -112,11 +112,11 @@ class ProductRepositoryImpl(ProductRepository):
         session = dbSession()
 
         productIdList = self.orderRepository.findAllProductIdByAccountId(sessionId)
-        print(f"상품 아이디 리스트:{productIdList}")
+        print(f"등록한 상품 리스트:{productIdList}")
 
-        for product in productIdList:
-            data = session.query(Product).filter_by(_Product__productId=product).first()
-            print(f"뭔데 넌: {data}")
-            session.delete(data)
+        for productId in productIdList:
+            productInfo = session.query(Product).filter_by(_Product__productId=productId).first()
+            print(f"등록된 상품의 정보는?: {productInfo}")
+            session.delete(productInfo)
         session.commit()
         return True

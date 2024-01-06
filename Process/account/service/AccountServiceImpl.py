@@ -114,9 +114,10 @@ class AccountServiceImpl(AccountService):
             return AccountDeleteResponse(False, "유효하지 않은 계정입니다.")
 
         self.__orderRepository.removeOrderInfoByAccountId(foundAccount.getId())
+        #self.__productRepository.removeProductAllBySessionId(foundAccount.getId())
         self.__sessionRepository.deleteBySessionId(foundAccount.getId())
         self.__accountRepository.deleteById(foundAccount.getId())
-        self.__productRepository.removeProductAllBySessionId(foundAccount.getId())
+
 
 
         return AccountDeleteResponse(True)
