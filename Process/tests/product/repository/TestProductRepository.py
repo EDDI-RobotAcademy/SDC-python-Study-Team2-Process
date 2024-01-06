@@ -108,8 +108,3 @@ class TestProductRepository(unittest.TestCase):
         request = ProductRequestEdit(20, "newName", 777, "newInfo")
         result = repository.edit(request)
         self.assertTrue(result)
-
-    def testRemoveProductAllBySessionId(self):
-        repository = ProductRepositoryImpl.getInstance()
-        result = repository.removeProductAllBySessionId(3)
-        self.assertTrue(result)
