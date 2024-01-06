@@ -22,7 +22,3 @@ class ProductRepository(abc.ABC):
     @abc.abstractmethod
     def findById(self, request):
         pass
-
-    @abc.abstractmethod
-    def removeProductAllBySessionId(self, sessionId):
-        pass
