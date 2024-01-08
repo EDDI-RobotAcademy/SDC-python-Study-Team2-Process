@@ -54,7 +54,7 @@ class ProductRepositoryImpl(ProductRepository):
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
 
-        product = session.query(Product).filter_by(_Product__id=_productId).first()
+        product = session.query(Product).filter_by(_Product__productId=_productId).first()
         if product:
             session.delete(product)
             session.commit()
