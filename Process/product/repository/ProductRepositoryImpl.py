@@ -80,7 +80,7 @@ class ProductRepositoryImpl(ProductRepository):
         dbSession = sessionmaker(bind=self.__instance.engine)
         session = dbSession()
 
-        existingProduct = session.query(Product).filter_by(_Product__id=request.getId()).first()
+        existingProduct = session.query(Product).filter_by(_Product__productId=request.getId()).first()
         if existingProduct:
             if request.getNewPrice()<0:
                 response = ProductResponseAboutSuccess(False, "유효하지 않은 가격입니다!")
